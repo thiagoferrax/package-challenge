@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import com.mobiquityinc.builders.PackageBuilder;
 import com.mobiquityinc.pojos.Package;

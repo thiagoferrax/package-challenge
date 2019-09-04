@@ -1,7 +1,7 @@
 package com.mobiquityinc.util;
 
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import com.mobiquityinc.exception.APIException;
 
