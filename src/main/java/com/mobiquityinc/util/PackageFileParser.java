@@ -11,11 +11,11 @@ import java.util.regex.Pattern;
 
 import com.mobiquityinc.exception.APIException;
 import com.mobiquityinc.pojos.Package;
-import com.mobiquityinc.pojos.Thing;
+import com.mobiquityinc.pojos.Item;
 
 public class PackageFileParser {
 	private static final int WEIGHT_LIMIT = 0;
-	private static final int THINGS = 1;
+	private static final int ITEMS = 1;
 	private static final int INDEX = 1;
 	private static final int WEIGHT = 2;
 	private static final int COST = 3;
@@ -37,7 +37,7 @@ public class PackageFileParser {
 
 			while ((row = reader.readLine()) != null) {
 				String[] rowData = row.split(" : ");
-				packageFile.addRow(new Package(getWeightLimit(rowData)), getThings(pattern, rowData));
+				packageFile.addRow(new Package(getWeightLimit(rowData)), getItems(pattern, rowData));
 			}
 
 			reader.close();
@@ -48,23 +48,23 @@ public class PackageFileParser {
 		return packageFile;
 	}
 
-	private static List<Thing> getThings(Pattern pattern, String[] rowData) throws APIException {
-		List<Thing> things = new ArrayList<>();
-		String[] arrayOfThings = rowData[THINGS].substring(1, rowData[THINGS].length()).split("\\) \\(");
-		for (String thing : arrayOfThings) {
-			Matcher matcher = pattern.matcher(thing);
+	private static List<Item> getItems(Pattern pattern, String[] rowData) throws APIException {
+		List<Item> items = new ArrayList<>();
+		String[] arrayOfItems = rowData[ITEMS].substring(1, rowData[ITEMS].length()).split("\\) \\(");
+		for (String item : arrayOfItems) {
+			Matcher matcher = pattern.matcher(item);
 			if (matcher.find()) {
 				Integer index = Integer.valueOf(matcher.group(INDEX));
 				BigDecimal weight = BigDecimal.valueOf(Double.valueOf(matcher.group(WEIGHT)));
 				BigDecimal cost = BigDecimal.valueOf(Double.valueOf(matcher.group(COST)));
 
-				things.add(new Thing(index, weight, cost));
+				items.add(new Item(index, weight, cost));
 			} else {
 				throw new APIException(FILE_NOT_CORRECT);
 			}
 		}
 
-		return things;
+		return items;
 	}
 
 	private static BigDecimal getWeightLimit(String[] rowData) {

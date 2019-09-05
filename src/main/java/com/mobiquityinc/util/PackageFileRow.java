@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mobiquityinc.pojos.Package;
-import com.mobiquityinc.pojos.Thing;
+import com.mobiquityinc.pojos.Item;
 
 public class PackageFileRow {
 	private Package aPackage;
-	List<Thing> things = new ArrayList<>();
+	List<Item> items = new ArrayList<>();
 	
-	public PackageFileRow(Package aPackage, List<Thing> things) {
+	public PackageFileRow(Package aPackage, List<Item> items) {
 		super();
 		this.aPackage = aPackage;
-		this.things = things;
+		this.items = items;
 	}
 
 	public Package getPackage() {
@@ -24,12 +24,12 @@ public class PackageFileRow {
 		this.aPackage = aPackage;
 	}
 
-	public List<Thing> getThings() {
-		return things;
+	public List<Item> getItems() {
+		return items;
 	}
 
-	public void setThings(List<Thing> things) {
-		this.things = things;
+	public void setItems(List<Item> items) {
+		this.items = items;
 	}
 	
 }

@@ -6,16 +6,16 @@ import java.util.List;
 
 public class Package {
 	private BigDecimal weightLimit;
-	private List<Thing> things;
+	private List<Item> items;
 	
 	public Package(BigDecimal weightLimit) {
 		this.weightLimit = weightLimit;
-		this.things = new ArrayList<>();
+		this.items = new ArrayList<>();
 	}
 	
-	public Package(BigDecimal weightLimit, List<Thing> things) {
+	public Package(BigDecimal weightLimit, List<Item> items) {
 		this.weightLimit = weightLimit;
-		this.things = things;
+		this.items = items;
 	}
 
 	public BigDecimal getWeightLimit() {
@@ -26,11 +26,11 @@ public class Package {
 		this.weightLimit = weightLimit;
 	}
 
-	public List<Thing> getThings() {
-		return things;
+	public List<Item> getItems() {
+		return items;
 	}
 
-	public void setThings(List<Thing> things) {
-		this.things = things;
+	public void setItems(List<Item> items) {
+		this.items = items;
 	}
 }

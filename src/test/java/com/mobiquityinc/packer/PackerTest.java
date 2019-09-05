@@ -15,7 +15,7 @@ class PackerTest {
 	void whenThePackageIsEmptyShouldReturnMinusCharacter() {
 		Package emptyPackage = PackageBuilder.newPackage().withWeightLimit(new BigDecimal(8)).now();
 
-		Assert.assertEquals("-", PackageUtil.getCSVThingsIndexes(emptyPackage));
+		Assert.assertEquals("-", PackageUtil.getCSVItemsIndexes(emptyPackage));
 	}
 
 }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mobiquityinc.pojos.Package;
-import com.mobiquityinc.pojos.Thing;
+import com.mobiquityinc.pojos.Item;
 
 public class PackageFile {
 	List<PackageFileRow> rows = new ArrayList<>();
@@ -13,7 +13,7 @@ public class PackageFile {
 		return rows;
 	}
 
-	public void addRow(Package aPackage, List<Thing> things) {
-		rows.add(new PackageFileRow(aPackage, things));
+	public void addRow(Package aPackage, List<Item> items) {
+		rows.add(new PackageFileRow(aPackage, items));
 	}
 }

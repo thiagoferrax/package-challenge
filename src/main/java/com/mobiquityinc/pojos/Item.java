@@ -2,12 +2,12 @@ package com.mobiquityinc.pojos;
 
 import java.math.BigDecimal;
 
-public class Thing {
+public class Item {
 	private int index;
 	private BigDecimal weigth;
 	private BigDecimal cost;
 	
-	public Thing(int index, BigDecimal weigth, BigDecimal cost) {
+	public Item(int index, BigDecimal weigth, BigDecimal cost) {
 		super();
 		this.index = index;
 		this.weigth = weigth;

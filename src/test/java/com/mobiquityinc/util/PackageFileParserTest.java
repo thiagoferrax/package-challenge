@@ -26,19 +26,19 @@ class PackageFileParserTest {
 		
 		PackageFileRow firstRow = file.getRows().get(0);
 		Assert.assertTrue(BigDecimal.valueOf(81).compareTo(firstRow.getPackage().getWeightLimit())==0);
-		Assert.assertEquals(6, firstRow.getThings().size());
+		Assert.assertEquals(6, firstRow.getItems().size());
 		
 		PackageFileRow secondRow = file.getRows().get(1);
 		Assert.assertTrue(BigDecimal.valueOf(8).compareTo(secondRow.getPackage().getWeightLimit())==0);
-		Assert.assertEquals(1, secondRow.getThings().size());
+		Assert.assertEquals(1, secondRow.getItems().size());
 
 		PackageFileRow thirdRow = file.getRows().get(2);
 		Assert.assertTrue(BigDecimal.valueOf(75).compareTo(thirdRow.getPackage().getWeightLimit())==0);
-		Assert.assertEquals(9, thirdRow.getThings().size());
+		Assert.assertEquals(9, thirdRow.getItems().size());
 		
 		PackageFileRow fourthRow = file.getRows().get(3);
 		Assert.assertTrue(BigDecimal.valueOf(56).compareTo(fourthRow.getPackage().getWeightLimit())==0);
-		Assert.assertEquals(9, fourthRow.getThings().size());
+		Assert.assertEquals(9, fourthRow.getItems().size());
 	}
 
 }

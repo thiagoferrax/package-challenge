@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.mobiquityinc.exception.APIException;
 import com.mobiquityinc.pojos.Package;
-import com.mobiquityinc.pojos.Thing;
+import com.mobiquityinc.pojos.Item;
 import com.mobiquityinc.util.PackageFile;
 import com.mobiquityinc.util.PackageFileParser;
 import com.mobiquityinc.util.PackageFileRow;
@@ -22,17 +22,17 @@ public class Packer {
 		
 		for (PackageFileRow row : file.getRows()) {
 			Package aPackage = row.getPackage();
-			List<Thing> availableThings = row.getThings();
+			List<Item> availableItems = row.getItems();
 			
-			pack(aPackage, availableThings);
+			pack(aPackage, availableItems);
 			
-			builder.append(PackageUtil.getCSVThingsIndexes(aPackage));
+			builder.append(PackageUtil.getCSVItemsIndexes(aPackage));
 		}
 
 		return builder.toString();
 	}
 
-	public static void pack(Package aPackage, List<Thing> availableThings) {
+	public static void pack(Package aPackage, List<Item> availableItems) {
 		
 	}
 }

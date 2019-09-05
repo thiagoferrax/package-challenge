@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.mobiquityinc.pojos.Package;
-import com.mobiquityinc.pojos.Thing;
+import com.mobiquityinc.pojos.Item;
 
 public class PackageBuilder {
 	private Package aPackage;
@@ -23,8 +23,8 @@ public class PackageBuilder {
 		return this;
 	}
 
-	public PackageBuilder withThings(List<Thing> things) {
-		aPackage.setThings(things);
+	public PackageBuilder withItems(List<Item> items) {
+		aPackage.setItems(items);
 		return this;
 	}
 
