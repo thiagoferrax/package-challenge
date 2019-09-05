@@ -3,7 +3,7 @@ package com.mobiquityinc.packer;
 import java.math.BigDecimal;
 
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.mobiquityinc.builders.PackageBuilder;
 import com.mobiquityinc.pojos.Package;
