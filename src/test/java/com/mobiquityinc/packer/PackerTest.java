@@ -24,6 +24,7 @@ class PackerTest {
 		Assert.assertEquals("-", PackageUtil.getCSVItemsIndexes(emptyPackage));
 	}
 	
+	@Test
 	void whenThePackageIsNotEmptyShouldReturnCSVIndexes() {
 		Package aPackage = PackageBuilder.newPackage().withWeightLimit(new BigDecimal(5)).now();
 		List<Item> availableItems = Arrays.asList(new Item[] {
@@ -35,7 +36,7 @@ class PackerTest {
 		
 		Packer.pack(aPackage, availableItems);
 		
-		Assert.assertEquals("1,3", PackageUtil.getCSVItemsIndexes(aPackage));
+		Assert.assertEquals("2,4", PackageUtil.getCSVItemsIndexes(aPackage));
 	}
 
 }

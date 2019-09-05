@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mobiquityinc.exception.APIException;
-import com.mobiquityinc.pojos.Package;
 import com.mobiquityinc.pojos.Item;
+import com.mobiquityinc.pojos.Package;
 import com.mobiquityinc.util.PackageFile;
 import com.mobiquityinc.util.PackageFileParser;
 import com.mobiquityinc.util.PackageFileRow;
@@ -36,50 +36,59 @@ public class Packer {
 
 	public static void pack(Package aPackage, List<Item> availableItems) {
 
-		int weightLimit = aPackage.getWeightLimit().intValue();
 		int nItems = availableItems.size();
-
 		if (nItems == 0) {
 			return;
 		}
 
+		int weightLimit = aPackage.getWeightLimit().intValue();
 		BigDecimal[][] costs = new BigDecimal[weightLimit + 1][nItems + 1];
-
 		for (int i = 1; i <= nItems; i++) {
+
 			Item item = availableItems.get(i - 1);
-			BigDecimal weight = item.getWeight();
-			BigDecimal cost = item.getCost();
+			for (int w = 1; w <= weightLimit; w++) {
 
-			for (int p = 1; p <= weightLimit; p++) {
-
-				int previusItem = i - 1;
-				costs[p][i] = costs[p][previusItem] == null ? BigDecimal.ZERO : costs[p][previusItem];
-
-				BigDecimal packageWeight = new BigDecimal(p);
-				if (weight.compareTo(packageWeight) <= 0) {
-
-					BigDecimal previusCost = costs[p][previusItem] == null ? BigDecimal.ZERO : costs[p][previusItem];
-					if (previusItem - 1 >= 0 && weight.add(availableItems.get(previusItem - 1).getWeight()).compareTo(packageWeight) <= 0) {
-						costs[p][i] = costs[p][i].add(cost);
-					} else if (costs[p][i].compareTo(previusCost) > 0) {
-						costs[p][i] = cost;
+				costs[w][i] = costs[w][i - 1] == null ? BigDecimal.ZERO : costs[w][i - 1];
+				if (item.getWeight().compareTo(new BigDecimal(w)) <= 0) {
+					
+					BigDecimal maximumCost = getMaximumCost(costs, item, i, w);
+					if (maximumCost.compareTo(costs[w][i]) > 0) {
+						costs[w][i] = maximumCost;
 					}
 				}
 			}
 		}
 
-		print(costs);
-
+		aPackage.setItems(getPackageItems(availableItems, weightLimit, costs));
 	}
 
-	private static void print(BigDecimal[][] costs) {
-		for (int i = 0; i < costs[0].length; i++) {
-			List<BigDecimal> row = new ArrayList<BigDecimal>();
-			for (int j = 0; j < costs.length; j++) {
-				row.add(costs[j][i]);
+	private static List<Item> getPackageItems(List<Item> availableItems, int weightLimit, BigDecimal[][] costs) {
+		List<Item> items = new ArrayList<>();
+
+		int w = weightLimit;
+		int i = availableItems.size();
+		BigDecimal cost = costs[w][i];
+
+		while (cost != null && cost.compareTo(BigDecimal.ZERO) > 0) {
+
+			if (costs[w][i] != costs[w][i - 1]) {
+				Item item = availableItems.get(i - 1);
+				w -= item.getWeight().intValue();
+
+				items.add(item);
 			}
-			String rowString = row.toString();
-			System.out.println(rowString.substring(1, rowString.length()));
+			i--;
+
+			cost = costs[w][i];
 		}
+
+		PackageUtil.sortByIndex(items);
+		
+		return items;
+	}
+
+	private static BigDecimal getMaximumCost(BigDecimal[][] costs, Item item, int i, int w) {
+		return costs[w - item.getWeight().intValue()][i - 1] == null ? item.getCost()
+				: costs[w - item.getWeight().intValue()][i - 1].add(item.getCost());
 	}
 }

@@ -1,5 +1,7 @@
 package com.mobiquityinc.util;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +25,20 @@ public class PackageUtil {
 				.collect(Collectors.joining(","));
 
 		return items.isEmpty() ? "-" : csvIndexes;
+	}
+
+	/**
+	 * Sort package items by index.
+	 * 
+	 * @param items List of items to sort.
+	 */
+	public static void sortByIndex(List<Item> items) {
+		Collections.sort(items, new Comparator<Item>() {
+			@Override
+			public int compare(Item i1, Item i2) {
+				return i1.getIndex().compareTo(i2.getIndex());
+			}
+		});
 	}
 
 }
