@@ -4,13 +4,13 @@ import java.math.BigDecimal;
 
 public class Item {
 	private int index;
-	private BigDecimal weigth;
+	private BigDecimal weight;
 	private BigDecimal cost;
 	
 	public Item(int index, BigDecimal weigth, BigDecimal cost) {
 		super();
 		this.index = index;
-		this.weigth = weigth;
+		this.weight = weigth;
 		this.cost = cost;
 	}
 	
@@ -20,11 +20,11 @@ public class Item {
 	public void setIndex(int index) {
 		this.index = index;
 	}
-	public BigDecimal getWeigth() {
-		return weigth;
+	public BigDecimal getWeight() {
+		return weight;
 	}
-	public void setWeigth(BigDecimal weigth) {
-		this.weigth = weigth;
+	public void setWeight(BigDecimal weight) {
+		this.weight = weight;
 	}
 	public BigDecimal getCost() {
 		return cost;
@@ -35,7 +35,7 @@ public class Item {
 
 	@Override
 	public String toString() {
-		return index + ", " + weigth + ", " + cost;
+		return index + ", " + weight + ", " + cost;
 	}
 	
 	

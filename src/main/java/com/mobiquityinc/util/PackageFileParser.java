@@ -22,7 +22,7 @@ public class PackageFileParser {
 
 	private static final String WEIGHT_AND_ITEMS_REGEXP = "\\s*:\\s*";
 	private static final String FILE_NOT_CORRECT = "File format is not correct!";
-	private static final String ITEMS_REGEXP = "\\) \\(";
+	private static final String ITEMS_REGEXP = "\\)\\s*\\(";
 	private static final String ITEM_INFO_REGEXP = "(\\d+),(\\d+.*\\d+),€(\\d+)";
 	
 	private PackageFileParser() {
