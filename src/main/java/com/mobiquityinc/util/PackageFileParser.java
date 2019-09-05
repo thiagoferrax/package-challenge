@@ -20,8 +20,11 @@ public class PackageFileParser {
 	private static final int WEIGHT = 2;
 	private static final int COST = 3;
 
+	private static final String WEIGHT_AND_ITEMS_REGEXP = "\\s*:\\s*";
 	private static final String FILE_NOT_CORRECT = "File format is not correct!";
-
+	private static final String ITEMS_REGEXP = "\\) \\(";
+	private static final String ITEM_INFO_REGEXP = "(\\d+),(\\d+.*\\d+),€(\\d+)";
+	
 	private PackageFileParser() {
 	}
 
@@ -33,10 +36,10 @@ public class PackageFileParser {
 			BufferedReader reader = new BufferedReader(new FileReader(file));
 
 			String row;
-			Pattern pattern = Pattern.compile("(\\d+),(\\d+.*\\d+),€(\\d+)");
+			Pattern pattern = Pattern.compile(ITEM_INFO_REGEXP);
 
 			while ((row = reader.readLine()) != null) {
-				String[] rowData = row.split(" : ");
+				String[] rowData = row.split(WEIGHT_AND_ITEMS_REGEXP);
 				packageFile.addRow(new Package(getWeightLimit(rowData)), getItems(pattern, rowData));
 			}
 
@@ -49,8 +52,10 @@ public class PackageFileParser {
 	}
 
 	private static List<Item> getItems(Pattern pattern, String[] rowData) throws APIException {
+		String itemsData = rowData[ITEMS];
+		String[] arrayOfItems = itemsData.substring(1, itemsData.length()).split(ITEMS_REGEXP);
+
 		List<Item> items = new ArrayList<>();
-		String[] arrayOfItems = rowData[ITEMS].substring(1, rowData[ITEMS].length()).split("\\) \\(");
 		for (String item : arrayOfItems) {
 			Matcher matcher = pattern.matcher(item);
 			if (matcher.find()) {
