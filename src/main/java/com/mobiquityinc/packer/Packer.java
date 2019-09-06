@@ -1,6 +1,7 @@
 package com.mobiquityinc.packer;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,19 +42,19 @@ public class Packer {
 			return;
 		}
 
-		int weightLimit = aPackage.getWeightLimit().intValue();
-		BigDecimal[][] costs = new BigDecimal[weightLimit + 1][nItems + 1];
+		int weightLimit = roundUp(aPackage.getWeightLimit());
+		BigDecimal[][] costs = new BigDecimal[nItems + 1][weightLimit + 1];
 		for (int i = 1; i <= nItems; i++) {
 
 			Item item = availableItems.get(i - 1);
 			for (int w = 1; w <= weightLimit; w++) {
 
-				costs[w][i] = costs[w][i - 1] == null ? BigDecimal.ZERO : costs[w][i - 1];
-				if (item.getWeight().intValue() <= w) {
-					
+				costs[i][w] = costs[i - 1][w] == null ? BigDecimal.ZERO : costs[i - 1][w];
+				if (item.getWeight().compareTo(new BigDecimal(w)) <= 0) {
+
 					BigDecimal maximumCost = getMaximumCost(costs, item, i, w);
-					if (maximumCost.compareTo(costs[w][i]) >= 0) {
-						costs[w][i] = maximumCost;
+					if (maximumCost.compareTo(costs[i][w]) >= 0) {
+						costs[i][w] = maximumCost;
 					}
 				}
 			}
@@ -62,33 +63,36 @@ public class Packer {
 		aPackage.setItems(getPackageItems(availableItems, weightLimit, costs));
 	}
 
+	private static int roundUp(BigDecimal value) {
+		return value.setScale(0, RoundingMode.UP).intValue();
+	}
+
 	private static List<Item> getPackageItems(List<Item> availableItems, int weightLimit, BigDecimal[][] costs) {
 		List<Item> items = new ArrayList<>();
 
 		int w = weightLimit;
 		int i = availableItems.size();
-		BigDecimal cost = costs[w][i];
+		BigDecimal cost = costs[i][w];
 
 		while (cost != null && cost.compareTo(BigDecimal.ZERO) > 0) {
 
-			if (costs[w][i] != costs[w][i - 1]) {
+			if (costs[i][w] != costs[i - 1][w]) {
 				Item item = availableItems.get(i - 1);
-				w -= item.getWeight().intValue();
-
+				w -= roundUp(item.getWeight());
 				items.add(item);
 			}
 			i--;
 
-			cost = costs[w][i];
+			cost = costs[i][w];
 		}
 
 		PackageUtil.sortByIndex(items);
-		
+
 		return items;
 	}
 
 	private static BigDecimal getMaximumCost(BigDecimal[][] costs, Item item, int i, int w) {
-		return costs[w - item.getWeight().intValue()][i - 1] == null ? item.getCost()
-				: costs[w - item.getWeight().intValue()][i - 1].add(item.getCost());
+		return costs[i - 1][w - roundUp(item.getWeight())] == null ? item.getCost()
+				: costs[i - 1][w - roundUp(item.getWeight())].add(item.getCost());
 	}
 }
