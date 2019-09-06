@@ -9,8 +9,12 @@ import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import com.mobiquityinc.builders.PackageBuilder;
+import com.mobiquityinc.exception.APIException;
 import com.mobiquityinc.pojos.Item;
 import com.mobiquityinc.pojos.Package;
+import com.mobiquityinc.util.PackageFile;
+import com.mobiquityinc.util.PackageFileParser;
+import com.mobiquityinc.util.PackageFileRow;
 import com.mobiquityinc.util.PackageUtil;
 
 class PackerTest {
@@ -37,6 +41,37 @@ class PackerTest {
 		Packer.pack(aPackage, availableItems);
 		
 		Assert.assertEquals("2,4", PackageUtil.getCSVItemsIndexes(aPackage));
+	}
+	
+	
+	@Test
+	void whenThePackageIsNotEmptyShouldReturnCSVIndexes_AssignmentFile() throws APIException {
+		PackageFile file = PackageFileParser.parse("package_file.txt");
+		
+		PackageFileRow packageFileRow = file.getRows().get(0);
+		Package aPackage = packageFileRow.getPackage();
+		Packer.pack(aPackage, packageFileRow.getItems());
+		
+		Assert.assertEquals("4", PackageUtil.getCSVItemsIndexes(aPackage));
+		
+		packageFileRow = file.getRows().get(1);
+		aPackage = packageFileRow.getPackage();
+		Packer.pack(aPackage, packageFileRow.getItems());
+		
+		Assert.assertEquals("-", PackageUtil.getCSVItemsIndexes(aPackage));
+		
+		packageFileRow = file.getRows().get(2);
+		aPackage = packageFileRow.getPackage();
+		Packer.pack(aPackage, packageFileRow.getItems());
+		
+		Assert.assertEquals("2,7", PackageUtil.getCSVItemsIndexes(aPackage));
+		
+		packageFileRow = file.getRows().get(3);
+		aPackage = packageFileRow.getPackage();
+		Packer.pack(aPackage, packageFileRow.getItems());
+		
+		Assert.assertEquals("8,9", PackageUtil.getCSVItemsIndexes(aPackage));
+		
 	}
 
 }

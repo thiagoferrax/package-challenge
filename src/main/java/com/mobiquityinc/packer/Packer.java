@@ -49,10 +49,10 @@ public class Packer {
 			for (int w = 1; w <= weightLimit; w++) {
 
 				costs[w][i] = costs[w][i - 1] == null ? BigDecimal.ZERO : costs[w][i - 1];
-				if (item.getWeight().compareTo(new BigDecimal(w)) <= 0) {
+				if (item.getWeight().intValue() <= w) {
 					
 					BigDecimal maximumCost = getMaximumCost(costs, item, i, w);
-					if (maximumCost.compareTo(costs[w][i]) > 0) {
+					if (maximumCost.compareTo(costs[w][i]) >= 0) {
 						costs[w][i] = maximumCost;
 					}
 				}
