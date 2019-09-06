@@ -3,6 +3,7 @@ package com.mobiquityinc.util;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,16 +25,17 @@ public class PackageFileParser {
 	private static final String FILE_NOT_CORRECT = "File format is not correct!";
 	private static final String ITEMS_REGEXP = "\\)\\s*\\(";
 	private static final String ITEM_INFO_REGEXP = "(\\d+),(\\d+.*\\d+),€(\\d+)";
-	
+
 	private PackageFileParser() {
 	}
 
 	public static PackageFile parse(String filePath) throws APIException {
 		PackageFile packageFile = new PackageFile();
 
+		BufferedReader reader = null;
 		try {
 			File file = new File(filePath);
-			BufferedReader reader = new BufferedReader(new FileReader(file));
+			reader = new BufferedReader(new FileReader(file));
 
 			String row;
 			Pattern pattern = Pattern.compile(ITEM_INFO_REGEXP);
@@ -43,12 +45,23 @@ public class PackageFileParser {
 				packageFile.addRow(new Package(getWeightLimit(rowData)), getItems(pattern, rowData));
 			}
 
-			reader.close();
 		} catch (Exception e) {
-			throw new APIException(e.getMessage());
+			throw new APIException(e.getMessage(), e);
+		} finally {
+			close(reader);
 		}
 
 		return packageFile;
+	}
+
+	private static void close(BufferedReader reader) throws APIException {
+		try {
+			if (reader != null) {
+				reader.close();
+			}
+		} catch (IOException e) {
+			throw new APIException(e.getMessage(), e);
+		}
 	}
 
 	private static List<Item> getItems(Pattern pattern, String[] rowData) throws APIException {

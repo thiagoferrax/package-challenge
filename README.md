@@ -2,6 +2,7 @@
 > 
 
 [![Build Status](https://travis-ci.org/thiagoferrax/package-challenge.svg?branch=master)](https://travis-ci.org/thiagoferrax/package-challenge)
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=com.mobiquityinc%3Apackage-challenge&metric=alert_status)](https://sonarcloud.io/dashboard?id=com.mobiquityinc%3Apackage-challenge)
 <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue.svg"></a>
 
 ## About
