@@ -9,7 +9,7 @@
 
 Assignment: send a friend a package with different things. Each thing has an index, weight and cost, and the package has a weight limit. The goal is to select the things maximizing the total cost and according to the package limit.
 
-## Architecture overview
+## Overview
 
 #### Project structure
 ```
@@ -18,35 +18,41 @@ Assignment: send a friend a package with different things. Each thing has an ind
 ├── pom.xml
 ├── README.md
 └── src
-    ├── main
-    │   └── java
-    │       └── com
-    │           └── mobiquityinc
-    │               ├── builders
-    │               │   ├── ItemBuilder.java
-    │               │   └── PackageBuilder.java
-    │               ├── exception
-    │               │   └── APIException.java
-    │               ├── packer
-    │               │   └── Packer.java
-    │               ├── pojos
-    │               │   ├── Item.java
-    │               │   └── Package.java
-    │               └── util
-    │                   ├── PackageFile.java
-    │                   ├── PackageFileParser.java
-    │                   ├── PackageFileRow.java
-    │                   └── PackageUtil.java
-    └── test
-       └── java
-           └── com
-               └── mobiquityinc
-                   ├── packer
-                   │   └── PackerTest.java
-                   └── util
-                       ├── PackageFileParserTest.java
-                       └── PackageUtilTest.java
-
+    ├── main
+    │   └── java
+    │       └── com
+    │           └── mobiquityinc
+    │               ├── builders
+    │               │   ├── ItemBuilder.java
+    │               │   └── PackageBuilder.java
+    │               ├── decorator
+    │               │   └── PackageDecorator.java
+    │               ├── exception
+    │               │   └── APIException.java
+    │               ├── factory
+    │               │   ├── DynamicProgrammingPackageSolver.java
+    │               │   ├── PackageSolverFactory.java
+    │               │   └── PackageSolver.java
+    │               ├── packer
+    │               │   └── Packer.java
+    │               ├── parser
+    │               │   ├── PackageFile.java
+    │               │   ├── PackageFileParser.java
+    │               │   └── PackageFileRow.java
+    │               ├── pojos
+    │               │   ├── Item.java
+    │               │   └── Package.java
+    │               └── util
+    │                   └── PackageUtil.java
+    └── test
+        └── java
+            └── com
+                └── mobiquityinc
+                    ├── packer
+                    │   └── PackerTest.java
+                    └── util
+                        ├── PackageFileParserTest.java
+                        └── PackageUtilTest.java
 ```
 
 #### Tech stack
