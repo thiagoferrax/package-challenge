@@ -13,9 +13,31 @@ import com.mobiquityinc.builders.PackageBuilder;
 import com.mobiquityinc.exception.APIException;
 import com.mobiquityinc.pojos.Item;
 import com.mobiquityinc.pojos.Package;
+import com.mobiquityinc.util.PackageFileParser;
 import com.mobiquityinc.util.PackageUtil;
 
 class PackerTest {
+
+	@Test
+	void whenFilePathIsNullShouldThrowsAPIExeption() {
+		String filePath = null;
+
+		try {
+			Packer.pack(filePath);
+			Assert.fail();
+		} catch (APIException e) {
+			Assert.assertEquals(PackageFileParser.FILE_PATH_MAY_NOT_BE_NULL_OR_EMPTY, e.getMessage());
+		}
+	}
+
+	@Test
+	void whenFileExistsShouldReturnTheCorrectResult() throws APIException {
+		String filePath = "package_file.txt";
+
+		Assert.assertEquals(
+				"4" + System.lineSeparator() + "-" + System.lineSeparator() + "2,7" + System.lineSeparator() + "8,9",
+				Packer.pack(filePath));
+	}
 
 	@Test
 	void whenNoAvailableItemsShouldReturnMinusCharacter() {

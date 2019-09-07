@@ -22,14 +22,19 @@ public class PackageFileParser {
 	private static final int COST = 3;
 
 	private static final String WEIGHT_AND_ITEMS_REGEXP = "\\s*:\\s*";
-	private static final String FILE_NOT_CORRECT = "File format is not correct!";
 	private static final String ITEMS_REGEXP = "\\)\\s*\\(";
 	private static final String ITEM_INFO_REGEXP = "(\\d+),(\\d+.*\\d+),€(\\d+)";
-
+	private static final String FILE_NOT_CORRECT = "File format is not correct!";
+	public static final String FILE_PATH_MAY_NOT_BE_NULL_OR_EMPTY = "The file path may not be null or empty!";
+	
 	private PackageFileParser() {
 	}
 
 	public static PackageFile parse(String filePath) throws APIException {
+		if(filePath == null || filePath.isEmpty()) {
+			throw new APIException(FILE_PATH_MAY_NOT_BE_NULL_OR_EMPTY);
+		}
+		
 		PackageFile packageFile = new PackageFile();
 
 		BufferedReader reader = null;

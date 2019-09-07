@@ -39,6 +39,9 @@ public class Packer {
 
 			pack(aPackage, availableItems);
 
+			if (builder.length() > 0) {
+				builder.append(System.lineSeparator());
+			}
 			builder.append(PackageUtil.getCSVItemsIndexes(aPackage));
 		}
 
