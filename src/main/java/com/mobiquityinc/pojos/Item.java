@@ -7,6 +7,9 @@ public class Item {
 	private BigDecimal weight;
 	private BigDecimal cost;
 
+	public Item() {
+	}
+
 	public Item(int index, BigDecimal weigth, BigDecimal cost) {
 		super();
 		this.index = index;

@@ -18,6 +18,16 @@ public class Packer {
 	private Packer() {
 	}
 
+	/**
+	 * Parses a file specified by the filePath and returns, per line, the selected
+	 * items indexes to add in each package, according to its weight limit and
+	 * maximizing the total cost.
+	 * 
+	 * @param filePath The file path with the informations about weight limits and
+	 *                 available items.
+	 * @return Comma separated items indexes.
+	 * @throws APIException When file is not found or bad formated.
+	 */
 	public static String pack(String filePath) throws APIException {
 		PackageFile file = PackageFileParser.parse(filePath);
 
@@ -35,18 +45,25 @@ public class Packer {
 		return builder.toString();
 	}
 
-	public static void pack(Package aPackage, List<Item> availableItems) {
+	/**
+	 * Add items to the package according to the package weight limit and maximizing
+	 * the total cost.
+	 * 
+	 * @param aPackage An empty package with weight limit.
+	 * @param items    The list of available items with their weights and costs.
+	 */
+	public static void pack(Package aPackage, List<Item> items) {
 
-		int nItems = availableItems.size();
+		int nItems = items.size();
 		if (nItems == 0) {
 			return;
 		}
 
-		int weightLimit = roundUp(aPackage.getWeightLimit());
+		int weightLimit = round(aPackage.getWeightLimit());
 		BigDecimal[][] costs = new BigDecimal[nItems + 1][weightLimit + 1];
 		for (int i = 1; i <= nItems; i++) {
 
-			Item item = availableItems.get(i - 1);
+			Item item = items.get(i - 1);
 			for (int w = 1; w <= weightLimit; w++) {
 
 				costs[i][w] = costs[i - 1][w] == null ? BigDecimal.ZERO : costs[i - 1][w];
@@ -60,39 +77,37 @@ public class Packer {
 			}
 		}
 
-		aPackage.setItems(getPackageItems(availableItems, weightLimit, costs));
+		aPackage.setItems(getPackageItems(items, weightLimit, costs));
 	}
 
-	private static int roundUp(BigDecimal value) {
-		return value.setScale(0, RoundingMode.UP).intValue();
-	}
-
-	private static List<Item> getPackageItems(List<Item> availableItems, int weightLimit, BigDecimal[][] costs) {
-		List<Item> items = new ArrayList<>();
+	private static List<Item> getPackageItems(List<Item> items, int weightLimit, BigDecimal[][] costs) {
+		List<Item> packageItems = new ArrayList<>();
 
 		int w = weightLimit;
-		int i = availableItems.size();
+		int i = items.size();
 		BigDecimal cost = costs[i][w];
-
 		while (cost != null && cost.compareTo(BigDecimal.ZERO) > 0) {
-
 			if (costs[i][w] != costs[i - 1][w]) {
-				Item item = availableItems.get(i - 1);
-				w -= roundUp(item.getWeight());
-				items.add(item);
+				Item item = items.get(i - 1);
+				w -= round(item.getWeight());
+
+				packageItems.add(item);
 			}
 			i--;
-
 			cost = costs[i][w];
 		}
 
-		PackageUtil.sortByIndex(items);
+		PackageUtil.sortByIndex(packageItems);
 
-		return items;
+		return packageItems;
 	}
 
 	private static BigDecimal getMaximumCost(BigDecimal[][] costs, Item item, int i, int w) {
-		return costs[i - 1][w - roundUp(item.getWeight())] == null ? item.getCost()
-				: costs[i - 1][w - roundUp(item.getWeight())].add(item.getCost());
+		return costs[i - 1][w - round(item.getWeight())] == null ? item.getCost()
+				: costs[i - 1][w - round(item.getWeight())].add(item.getCost());
+	}
+
+	private static int round(BigDecimal value) {
+		return value.setScale(0, RoundingMode.HALF_UP).intValue();
 	}
 }
