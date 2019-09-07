@@ -29,6 +29,18 @@ class PackerTest {
 			Assert.assertEquals(PackageFileParser.FILE_PATH_MAY_NOT_BE_NULL_OR_EMPTY, e.getMessage());
 		}
 	}
+	
+	@Test
+	void whenFilePathIsEmptyShouldThrowsAPIExeption() {
+		String filePath = "";
+
+		try {
+			Packer.pack(filePath);
+			Assert.fail();
+		} catch (APIException e) {
+			Assert.assertEquals(PackageFileParser.FILE_PATH_MAY_NOT_BE_NULL_OR_EMPTY, e.getMessage());
+		}
+	}
 
 	@Test
 	void whenFileExistsShouldReturnTheCorrectResult() throws APIException {
