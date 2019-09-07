@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.mobiquityinc.builders.ItemBuilder;
 import com.mobiquityinc.exception.APIException;
 import com.mobiquityinc.pojos.Item;
 import com.mobiquityinc.pojos.Package;
@@ -23,14 +24,14 @@ public class PackageFileParser {
 	private static final String ITEMS_REGEXP = "\\)\\s*\\(";
 	private static final String ITEM_INFO_REGEXP = "(\\d+),(\\d+.*\\d+),€(\\d+)";
 	private static final String FILE_NOT_CORRECT = "File format is not correct!";
-	public static final String FILE_PATH_MAY_NOT_BE_NULL_OR_EMPTY = "The file path may not be null or empty!";
+	public static final String PATH_NOT_NULL_OR_EMPTY = "The file path may not be null or empty!";
 
 	private PackageFileParser() {
 	}
 
 	public static PackageFile parse(String filePath) throws APIException {
 		if (filePath == null || filePath.isEmpty()) {
-			throw new APIException(FILE_PATH_MAY_NOT_BE_NULL_OR_EMPTY);
+			throw new APIException(PATH_NOT_NULL_OR_EMPTY);
 		}
 
 		PackageFile packageFile = new PackageFile();
@@ -57,11 +58,9 @@ public class PackageFileParser {
 		for (String item : arrayOfItems) {
 			Matcher matcher = pattern.matcher(item);
 			if (matcher.find()) {
-				Integer index = Integer.valueOf(matcher.group(INDEX));
-				BigDecimal weight = BigDecimal.valueOf(Double.valueOf(matcher.group(WEIGHT)));
-				BigDecimal cost = BigDecimal.valueOf(Double.valueOf(matcher.group(COST)));
-
-				items.add(new Item(index, weight, cost));
+				items.add(ItemBuilder.newItem().withIndex(Integer.valueOf(matcher.group(INDEX)))
+						.withWeight(BigDecimal.valueOf(Double.valueOf(matcher.group(WEIGHT))))
+						.withCost(BigDecimal.valueOf(Double.valueOf(matcher.group(COST)))).now());
 			} else {
 				throw new APIException(FILE_NOT_CORRECT);
 			}
