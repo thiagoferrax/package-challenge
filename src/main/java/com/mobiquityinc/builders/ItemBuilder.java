@@ -9,7 +9,7 @@ public class ItemBuilder {
 
 	private ItemBuilder() {
 	}
-	
+
 	public static ItemBuilder newItem() {
 		ItemBuilder builder = new ItemBuilder();
 		builder.item = new Item();
@@ -25,10 +25,22 @@ public class ItemBuilder {
 		item.setWeight(weight);
 		return this;
 	}
-	
+
 	public ItemBuilder withCost(BigDecimal cost) {
 		item.setCost(cost);
 		return this;
+	}
+
+	public ItemBuilder withIndex(String index) {
+		return withIndex(Integer.valueOf(index));
+	}
+
+	public ItemBuilder withWeight(String wight) {
+		return withWeight(BigDecimal.valueOf(Double.valueOf(wight)));
+	}
+
+	public ItemBuilder withCost(String cost) {
+		return withCost(BigDecimal.valueOf(Double.valueOf(cost)));
 	}
 
 	public Item now() {

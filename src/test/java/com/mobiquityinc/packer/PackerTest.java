@@ -13,7 +13,8 @@ import com.mobiquityinc.builders.PackageBuilder;
 import com.mobiquityinc.exception.APIException;
 import com.mobiquityinc.factory.PackageSolver;
 import com.mobiquityinc.factory.PackageSolverFactory;
-import com.mobiquityinc.parser.PackageFileParser;
+import com.mobiquityinc.factory.PackageSolverFactory.Approach;
+import com.mobiquityinc.parser.Constants;
 import com.mobiquityinc.pojos.Item;
 import com.mobiquityinc.pojos.Package;
 import com.mobiquityinc.util.PackageUtil;
@@ -31,7 +32,7 @@ class PackerTest {
 			Assert.fail();
 		} catch (APIException e) {
 			// Then
-			Assert.assertEquals(PackageFileParser.PATH_NOT_NULL_OR_EMPTY, e.getMessage());
+			Assert.assertEquals(Constants.PATH_NOT_NULL_OR_EMPTY, e.getMessage());
 		}
 	}
 
@@ -46,7 +47,7 @@ class PackerTest {
 			Assert.fail();
 		} catch (APIException e) {
 			// Then
-			Assert.assertEquals(PackageFileParser.PATH_NOT_NULL_OR_EMPTY, e.getMessage());
+			Assert.assertEquals(Constants.PATH_NOT_NULL_OR_EMPTY, e.getMessage());
 		}
 	}
 
@@ -68,11 +69,11 @@ class PackerTest {
 		ArrayList<Item> noAvailableItems = new ArrayList<Item>();
 
 		// When
-		PackageSolver packageSolver = PackageSolverFactory.getInstance().newDynamicProgrammingPackageSolver();
+		PackageSolver packageSolver = PackageSolverFactory.getInstance().newPackageSolver(Approach.DYNAMIC_PROGRAMMING);
 		packageSolver.pack(emptyPackage, noAvailableItems);
 
 		// Then
-		Assert.assertEquals("-", PackageUtil.getCSVItemsIndexes(emptyPackage));
+		Assert.assertEquals("-", PackageUtil.getCSVItemsIndexes(emptyPackage.getItems()));
 	}
 
 	@Test
@@ -87,11 +88,11 @@ class PackerTest {
 						.now() });
 
 		// When
-		PackageSolver packageSolver = PackageSolverFactory.getInstance().newDynamicProgrammingPackageSolver();
+		PackageSolver packageSolver = PackageSolverFactory.getInstance().newPackageSolver(Approach.DYNAMIC_PROGRAMMING);
 		packageSolver.pack(aPackage, availableItems);
 
 		// Then
-		Assert.assertEquals("-", PackageUtil.getCSVItemsIndexes(aPackage));
+		Assert.assertEquals("-", PackageUtil.getCSVItemsIndexes(aPackage.getItems()));
 	}
 
 	@Test
@@ -105,11 +106,11 @@ class PackerTest {
 				ItemBuilder.newItem().withIndex(4).withWeight(new BigDecimal(3)).withCost(new BigDecimal(450)).now() });
 
 		// When
-		PackageSolver packageSolver = PackageSolverFactory.getInstance().newDynamicProgrammingPackageSolver();
+		PackageSolver packageSolver = PackageSolverFactory.getInstance().newPackageSolver(Approach.DYNAMIC_PROGRAMMING);
 		packageSolver.pack(aPackage, availableItems);
 
 		// Then
-		Assert.assertEquals("2,4", PackageUtil.getCSVItemsIndexes(aPackage));
+		Assert.assertEquals("2,4", PackageUtil.getCSVItemsIndexes(aPackage.getItems()));
 	}
 
 	@Test
@@ -126,11 +127,11 @@ class PackerTest {
 						.now() });
 
 		// When
-		PackageSolver packageSolver = PackageSolverFactory.getInstance().newDynamicProgrammingPackageSolver();
+		PackageSolver packageSolver = PackageSolverFactory.getInstance().newPackageSolver(Approach.DYNAMIC_PROGRAMMING);
 		packageSolver.pack(aPackage, availableItems);
 
 		// Then
-		Assert.assertEquals("4", PackageUtil.getCSVItemsIndexes(aPackage));
+		Assert.assertEquals("4", PackageUtil.getCSVItemsIndexes(aPackage.getItems()));
 	}
 
 	@Test
@@ -141,11 +142,11 @@ class PackerTest {
 				.withWeight(new BigDecimal(15.3)).withCost(new BigDecimal(34)).now() });
 
 		// When
-		PackageSolver packageSolver = PackageSolverFactory.getInstance().newDynamicProgrammingPackageSolver();
+		PackageSolver packageSolver = PackageSolverFactory.getInstance().newPackageSolver(Approach.DYNAMIC_PROGRAMMING);
 		packageSolver.pack(aPackage, availableItems);
 
 		// Then
-		Assert.assertEquals("-", PackageUtil.getCSVItemsIndexes(aPackage));
+		Assert.assertEquals("-", PackageUtil.getCSVItemsIndexes(aPackage.getItems()));
 	}
 
 	@Test
@@ -165,11 +166,11 @@ class PackerTest {
 						.now() });
 
 		// When
-		PackageSolver packageSolver = PackageSolverFactory.getInstance().newDynamicProgrammingPackageSolver();
+		PackageSolver packageSolver = PackageSolverFactory.getInstance().newPackageSolver(Approach.DYNAMIC_PROGRAMMING);
 		packageSolver.pack(aPackage, availableItems);
 
 		// Then
-		Assert.assertEquals("2,7", PackageUtil.getCSVItemsIndexes(aPackage));
+		Assert.assertEquals("2,7", PackageUtil.getCSVItemsIndexes(aPackage.getItems()));
 	}
 
 	@Test
@@ -189,11 +190,11 @@ class PackerTest {
 						.now() });
 
 		// When
-		PackageSolver packageSolver = PackageSolverFactory.getInstance().newDynamicProgrammingPackageSolver();
+		PackageSolver packageSolver = PackageSolverFactory.getInstance().newPackageSolver(Approach.DYNAMIC_PROGRAMMING);
 		packageSolver.pack(aPackage, availableItems);
 
 		// Then
-		Assert.assertEquals("8,9", PackageUtil.getCSVItemsIndexes(aPackage));
+		Assert.assertEquals("8,9", PackageUtil.getCSVItemsIndexes(aPackage.getItems()));
 	}
 
 	@Test
@@ -208,11 +209,11 @@ class PackerTest {
 		Package aPackage = new Package(new BigDecimal(10));
 
 		// When
-		PackageSolver packageSolver = PackageSolverFactory.getInstance().newDynamicProgrammingPackageSolver();
+		PackageSolver packageSolver = PackageSolverFactory.getInstance().newPackageSolver(Approach.DYNAMIC_PROGRAMMING);
 		packageSolver.pack(aPackage, items);
 
 		// Then
-		Assert.assertEquals("1,3", PackageUtil.getCSVItemsIndexes(aPackage));
+		Assert.assertEquals("1,3", PackageUtil.getCSVItemsIndexes(aPackage.getItems()));
 	}
 
 	@Test
@@ -227,11 +228,11 @@ class PackerTest {
 		Package aPackage = new Package(new BigDecimal(10), items);
 
 		// When
-		PackageSolver packageSolver = PackageSolverFactory.getInstance().newDynamicProgrammingPackageSolver();
+		PackageSolver packageSolver = PackageSolverFactory.getInstance().newPackageSolver(Approach.DYNAMIC_PROGRAMMING);
 		packageSolver.pack(aPackage, items);
 
 		// Then
-		Assert.assertEquals("3,4", PackageUtil.getCSVItemsIndexes(aPackage));
+		Assert.assertEquals("3,4", PackageUtil.getCSVItemsIndexes(aPackage.getItems()));
 	}
 
 	@Test
@@ -246,11 +247,11 @@ class PackerTest {
 		Package aPackage = new Package(new BigDecimal(10));
 
 		// When
-		PackageSolver packageSolver = PackageSolverFactory.getInstance().newDynamicProgrammingPackageSolver();
+		PackageSolver packageSolver = PackageSolverFactory.getInstance().newPackageSolver(Approach.DYNAMIC_PROGRAMMING);
 		packageSolver.pack(aPackage, items);
 
 		// Then
-		Assert.assertEquals("1,4", PackageUtil.getCSVItemsIndexes(aPackage));
+		Assert.assertEquals("1,4", PackageUtil.getCSVItemsIndexes(aPackage.getItems()));
 	}
 
 	@Test
@@ -265,11 +266,11 @@ class PackerTest {
 		Package aPackage = new Package(new BigDecimal(56));
 
 		// When
-		PackageSolver packageSolver = PackageSolverFactory.getInstance().newDynamicProgrammingPackageSolver();
+		PackageSolver packageSolver = PackageSolverFactory.getInstance().newPackageSolver(Approach.DYNAMIC_PROGRAMMING);
 		packageSolver.pack(aPackage, items);
 
 		// Then
-		Assert.assertEquals("3,4", PackageUtil.getCSVItemsIndexes(aPackage));
+		Assert.assertEquals("3,4", PackageUtil.getCSVItemsIndexes(aPackage.getItems()));
 	}
 
 	@Test
@@ -284,11 +285,11 @@ class PackerTest {
 		items.add(new Item(4, BigDecimal.valueOf((float) 16.36), BigDecimal.valueOf((float) 64)));
 
 		// When
-		PackageSolver packageSolver = PackageSolverFactory.getInstance().newDynamicProgrammingPackageSolver();
+		PackageSolver packageSolver = PackageSolverFactory.getInstance().newPackageSolver(Approach.DYNAMIC_PROGRAMMING);
 		packageSolver.pack(aPackage, items);
 
 		// Then
-		Assert.assertEquals("1,3,4", PackageUtil.getCSVItemsIndexes(aPackage));
+		Assert.assertEquals("1,3,4", PackageUtil.getCSVItemsIndexes(aPackage.getItems()));
 	}
 
 }

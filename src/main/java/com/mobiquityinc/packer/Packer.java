@@ -2,17 +2,16 @@ package com.mobiquityinc.packer;
 
 import java.util.List;
 
-import com.mobiquityinc.decorator.PackageDecorator;
+import com.mobiquityinc.decorator.StringBuilderDecorator;
 import com.mobiquityinc.exception.APIException;
-import com.mobiquityinc.factory.DynamicProgrammingPackageSolver;
 import com.mobiquityinc.factory.PackageSolver;
 import com.mobiquityinc.factory.PackageSolverFactory;
+import com.mobiquityinc.factory.PackageSolverFactory.Approach;
 import com.mobiquityinc.parser.PackageFile;
 import com.mobiquityinc.parser.PackageFileParser;
 import com.mobiquityinc.parser.PackageFileRow;
 import com.mobiquityinc.pojos.Item;
 import com.mobiquityinc.pojos.Package;
-import com.mobiquityinc.util.PackageUtil;
 
 public class Packer {
 
@@ -32,19 +31,16 @@ public class Packer {
 	public static String pack(String filePath) throws APIException {
 		PackageFile file = PackageFileParser.parse(filePath);
 
-		StringBuilder builder = new StringBuilder();
-
+		StringBuilderDecorator builder = new StringBuilderDecorator(new StringBuilder());
 		for (PackageFileRow row : file.getRows()) {
 			Package aPackage = row.getPackage();
 			List<Item> availableItems = row.getItems();
 
-			PackageSolver packageSolver = PackageSolverFactory.getInstance().newDynamicProgrammingPackageSolver();
+			PackageSolver packageSolver = PackageSolverFactory.getInstance()
+					.newPackageSolver(Approach.DYNAMIC_PROGRAMMING);
 			packageSolver.pack(aPackage, availableItems);
 
-			if (builder.length() > 0) {
-				builder.append(System.lineSeparator());
-			}
-			builder.append(new PackageDecorator(aPackage));
+			builder.append(aPackage.getItems());
 		}
 
 		return builder.toString();

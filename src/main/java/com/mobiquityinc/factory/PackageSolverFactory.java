@@ -1,6 +1,10 @@
 package com.mobiquityinc.factory;
 
 public class PackageSolverFactory {
+	public enum Approach {
+		DYNAMIC_PROGRAMMING
+	}
+
 	private PackageSolverFactory() {
 	}
 
@@ -8,7 +12,17 @@ public class PackageSolverFactory {
 		return new PackageSolverFactory();
 	}
 
-	public PackageSolver newDynamicProgrammingPackageSolver() {
-		return new DynamicProgrammingPackageSolver();
+	public PackageSolver newPackageSolver(Approach approach) {
+		PackageSolver packageSolver;
+		switch (approach) {
+		case DYNAMIC_PROGRAMMING:
+			packageSolver = new DynamicProgrammingPackageSolver();
+			break;
+
+		default:
+			packageSolver = null;
+			break;
+		}
+		return packageSolver;
 	}
 }
