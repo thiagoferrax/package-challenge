@@ -11,8 +11,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.mobiquityinc.exception.APIException;
-import com.mobiquityinc.pojos.Package;
 import com.mobiquityinc.pojos.Item;
+import com.mobiquityinc.pojos.Package;
 
 public class PackageFileParser {
 	private static final int WEIGHT_LIMIT = 0;
@@ -26,47 +26,29 @@ public class PackageFileParser {
 	private static final String ITEM_INFO_REGEXP = "(\\d+),(\\d+.*\\d+),€(\\d+)";
 	private static final String FILE_NOT_CORRECT = "File format is not correct!";
 	public static final String FILE_PATH_MAY_NOT_BE_NULL_OR_EMPTY = "The file path may not be null or empty!";
-	
+
 	private PackageFileParser() {
 	}
 
 	public static PackageFile parse(String filePath) throws APIException {
-		if(filePath == null || filePath.isEmpty()) {
+		if (filePath == null || filePath.isEmpty()) {
 			throw new APIException(FILE_PATH_MAY_NOT_BE_NULL_OR_EMPTY);
 		}
-		
+
 		PackageFile packageFile = new PackageFile();
 
-		BufferedReader reader = null;
-		try {
-			File file = new File(filePath);
-			reader = new BufferedReader(new FileReader(file));
-
+		try (FileReader file = new FileReader(filePath); BufferedReader reader = new BufferedReader(file)) {
 			String row;
 			Pattern pattern = Pattern.compile(ITEM_INFO_REGEXP);
-
 			while ((row = reader.readLine()) != null) {
 				String[] rowData = row.split(WEIGHT_AND_ITEMS_REGEXP);
 				packageFile.addRow(new Package(getWeightLimit(rowData)), getItems(pattern, rowData));
 			}
-
 		} catch (Exception e) {
 			throw new APIException(e.getMessage(), e);
-		} finally {
-			close(reader);
 		}
 
 		return packageFile;
-	}
-
-	private static void close(BufferedReader reader) throws APIException {
-		try {
-			if (reader != null) {
-				reader.close();
-			}
-		} catch (IOException e) {
-			throw new APIException(e.getMessage(), e);
-		}
 	}
 
 	private static List<Item> getItems(Pattern pattern, String[] rowData) throws APIException {
