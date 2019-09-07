@@ -26,7 +26,7 @@ Assignment: send a friend a package with different things. Each thing has an ind
     │               │   ├── ItemBuilder.java
     │               │   └── PackageBuilder.java
     │               ├── decorator
-    │               │   └── PackageDecorator.java
+    │               │   └── StringBuilderDecorator.java
     │               ├── exception
     │               │   └── APIException.java
     │               ├── factory
@@ -36,6 +36,7 @@ Assignment: send a friend a package with different things. Each thing has an ind
     │               ├── packer
     │               │   └── Packer.java
     │               ├── parser
+    │               │   ├── Constants.java
     │               │   ├── PackageFile.java
     │               │   ├── PackageFileParser.java
     │               │   └── PackageFileRow.java
