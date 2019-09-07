@@ -20,32 +20,40 @@ class PackerTest {
 
 	@Test
 	void whenFilePathIsNullShouldThrowsAPIExeption() {
+		// Given
 		String filePath = null;
 
 		try {
+			// When
 			Packer.pack(filePath);
 			Assert.fail();
 		} catch (APIException e) {
+			// Then
 			Assert.assertEquals(PackageFileParser.PATH_NOT_NULL_OR_EMPTY, e.getMessage());
 		}
 	}
-	
+
 	@Test
 	void whenFilePathIsEmptyShouldThrowsAPIExeption() {
+		// Given
 		String filePath = "";
 
 		try {
+			// When
 			Packer.pack(filePath);
 			Assert.fail();
 		} catch (APIException e) {
+			// Then
 			Assert.assertEquals(PackageFileParser.PATH_NOT_NULL_OR_EMPTY, e.getMessage());
 		}
 	}
 
 	@Test
 	void whenFileExistsShouldReturnTheCorrectResult() throws APIException {
+		// Given
 		String filePath = "package_file.txt";
 
+		// When and Then
 		Assert.assertEquals(
 				"4" + System.lineSeparator() + "-" + System.lineSeparator() + "2,7" + System.lineSeparator() + "8,9",
 				Packer.pack(filePath));
@@ -53,16 +61,20 @@ class PackerTest {
 
 	@Test
 	void whenNoAvailableItemsShouldReturnMinusCharacter() {
+		// Given
 		Package emptyPackage = PackageBuilder.newPackage().withWeightLimit(new BigDecimal(8)).now();
 		ArrayList<Item> noAvailableItems = new ArrayList<Item>();
 
+		// When
 		Packer.pack(emptyPackage, noAvailableItems);
 
+		// Then
 		Assert.assertEquals("-", PackageUtil.getCSVItemsIndexes(emptyPackage));
 	}
 
 	@Test
 	public void whenAllItemsWeightsGreaterThanLimitShouldReturnMinusCharacter() throws APIException {
+		// Given
 		Package aPackage = PackageBuilder.newPackage().withWeightLimit(new BigDecimal(5)).now();
 		List<Item> availableItems = Arrays.asList(new Item[] {
 				ItemBuilder.newItem().withIndex(1).withWeight(new BigDecimal(40)).withCost(new BigDecimal(500)).now(),
@@ -71,13 +83,16 @@ class PackerTest {
 				ItemBuilder.newItem().withIndex(4).withWeight(new BigDecimal(30)).withCost(new BigDecimal(450))
 						.now() });
 
+		// When
 		Packer.pack(aPackage, availableItems);
 
+		// Then
 		Assert.assertEquals("-", PackageUtil.getCSVItemsIndexes(aPackage));
 	}
 
 	@Test
 	void whenAllItemsWeightsLessThanLimitShouldReturnCSVIndexes() {
+		// Given
 		Package aPackage = PackageBuilder.newPackage().withWeightLimit(new BigDecimal(5)).now();
 		List<Item> availableItems = Arrays.asList(new Item[] {
 				ItemBuilder.newItem().withIndex(1).withWeight(new BigDecimal(4)).withCost(new BigDecimal(500)).now(),
@@ -85,13 +100,16 @@ class PackerTest {
 				ItemBuilder.newItem().withIndex(3).withWeight(new BigDecimal(1)).withCost(new BigDecimal(300)).now(),
 				ItemBuilder.newItem().withIndex(4).withWeight(new BigDecimal(3)).withCost(new BigDecimal(450)).now() });
 
+		// When
 		Packer.pack(aPackage, availableItems);
 
+		// Then
 		Assert.assertEquals("2,4", PackageUtil.getCSVItemsIndexes(aPackage));
 	}
 
 	@Test
 	void whenSomeItemsWeightsGreaterThanLimitShouldReturnCSVIndexes() {
+		// Given
 		Package aPackage = PackageBuilder.newPackage().withWeightLimit(new BigDecimal(81)).now();
 		List<Item> availableItems = Arrays.asList(new Item[] {
 				ItemBuilder.newItem().withIndex(1).withWeight(new BigDecimal(53.38)).withCost(new BigDecimal(45)).now(),
@@ -102,24 +120,30 @@ class PackerTest {
 				ItemBuilder.newItem().withIndex(6).withWeight(new BigDecimal(46.34)).withCost(new BigDecimal(48))
 						.now() });
 
+		// When
 		Packer.pack(aPackage, availableItems);
 
+		// Then
 		Assert.assertEquals("4", PackageUtil.getCSVItemsIndexes(aPackage));
 	}
 
 	@Test
 	void whenOnlyOneItemsWeightGreaterThanLimitShouldReturnMinusCharacter() {
+		// Given
 		Package aPackage = PackageBuilder.newPackage().withWeightLimit(new BigDecimal(8)).now();
 		List<Item> availableItems = Arrays.asList(new Item[] { ItemBuilder.newItem().withIndex(1)
 				.withWeight(new BigDecimal(15.3)).withCost(new BigDecimal(34)).now() });
 
+		// When
 		Packer.pack(aPackage, availableItems);
 
+		// Then
 		Assert.assertEquals("-", PackageUtil.getCSVItemsIndexes(aPackage));
 	}
 
 	@Test
 	void whenSomeOthersItemsWeightsGreaterThanLimitShouldReturnCSVIndexes() {
+		// Given
 		Package aPackage = PackageBuilder.newPackage().withWeightLimit(new BigDecimal(75)).now();
 		List<Item> availableItems = Arrays.asList(new Item[] {
 				ItemBuilder.newItem().withIndex(1).withWeight(new BigDecimal(85.31)).withCost(new BigDecimal(29)).now(),
@@ -133,13 +157,16 @@ class PackerTest {
 				ItemBuilder.newItem().withIndex(9).withWeight(new BigDecimal(89.95)).withCost(new BigDecimal(78))
 						.now() });
 
+		// When
 		Packer.pack(aPackage, availableItems);
 
+		// Then
 		Assert.assertEquals("2,7", PackageUtil.getCSVItemsIndexes(aPackage));
 	}
 
 	@Test
 	void whenOthersItemsWeightsGreaterThanLimitShouldReturnCSVIndexes() {
+		// Given
 		Package aPackage = PackageBuilder.newPackage().withWeightLimit(new BigDecimal(56)).now();
 		List<Item> availableItems = Arrays.asList(new Item[] {
 				ItemBuilder.newItem().withIndex(1).withWeight(new BigDecimal(90.72)).withCost(new BigDecimal(13)).now(),
@@ -153,14 +180,16 @@ class PackerTest {
 				ItemBuilder.newItem().withIndex(9).withWeight(new BigDecimal(6.76)).withCost(new BigDecimal(64))
 						.now() });
 
+		// When
 		Packer.pack(aPackage, availableItems);
 
+		// Then
 		Assert.assertEquals("8,9", PackageUtil.getCSVItemsIndexes(aPackage));
 	}
 
 	@Test
 	public void whenHappyDay() throws APIException {
-
+		// Given
 		List<Item> items = new ArrayList<>();
 		items.add(new Item(1, BigDecimal.valueOf((float) 8.77), BigDecimal.valueOf((float) 79)));
 		items.add(new Item(2, BigDecimal.valueOf((float) 81.80), BigDecimal.valueOf((float) 45)));
@@ -169,14 +198,16 @@ class PackerTest {
 
 		Package aPackage = new Package(new BigDecimal(10));
 
+		// When
 		Packer.pack(aPackage, items);
 
+		// Then
 		Assert.assertEquals("1,3", PackageUtil.getCSVItemsIndexes(aPackage));
 	}
 
 	@Test
 	public void whenItemsWeightsEqualsToPackageLimit() throws APIException {
-
+		// Given
 		List<Item> items = new ArrayList<>();
 		items.add(new Item(1, BigDecimal.valueOf((float) 10.00), BigDecimal.valueOf((float) 79)));
 		items.add(new Item(2, BigDecimal.valueOf((float) 81.80), BigDecimal.valueOf((float) 45)));
@@ -185,14 +216,16 @@ class PackerTest {
 
 		Package aPackage = new Package(new BigDecimal(10), items);
 
+		// When
 		Packer.pack(aPackage, items);
 
+		// Then
 		Assert.assertEquals("3,4", PackageUtil.getCSVItemsIndexes(aPackage));
 	}
 
 	@Test
 	public void whenItemsWeightAreIntegerValues() throws APIException {
-
+		// Given
 		List<Item> items = new ArrayList<>();
 		items.add(new Item(1, BigDecimal.valueOf((float) 5.00), BigDecimal.valueOf((float) 40)));
 		items.add(new Item(2, BigDecimal.valueOf((float) 4.00), BigDecimal.valueOf((float) 10)));
@@ -201,14 +234,16 @@ class PackerTest {
 
 		Package aPackage = new Package(new BigDecimal(10));
 
+		// When
 		Packer.pack(aPackage, items);
 
+		// Then
 		Assert.assertEquals("1,4", PackageUtil.getCSVItemsIndexes(aPackage));
 	}
 
 	@Test
 	public void whenSomeItemsHaveSameCost() throws APIException {
-
+		// Given
 		List<Item> items = new ArrayList<>();
 		items.add(new Item(1, BigDecimal.valueOf((float) 48.77), BigDecimal.valueOf((float) 79)));
 		items.add(new Item(2, BigDecimal.valueOf((float) 81.80), BigDecimal.valueOf((float) 45)));
@@ -217,13 +252,16 @@ class PackerTest {
 
 		Package aPackage = new Package(new BigDecimal(56));
 
+		// When
 		Packer.pack(aPackage, items);
 
+		// Then
 		Assert.assertEquals("3,4", PackageUtil.getCSVItemsIndexes(aPackage));
 	}
 
 	@Test
 	public void whenItemsHaveSameWeight() throws APIException {
+		// Given
 		Package aPackage = new Package(new BigDecimal(56));
 
 		List<Item> items = new ArrayList<>();
@@ -232,8 +270,10 @@ class PackerTest {
 		items.add(new Item(3, BigDecimal.valueOf((float) 16.36), BigDecimal.valueOf((float) 79)));
 		items.add(new Item(4, BigDecimal.valueOf((float) 16.36), BigDecimal.valueOf((float) 64)));
 
+		// When
 		Packer.pack(aPackage, items);
 
+		// Then
 		Assert.assertEquals("1,3,4", PackageUtil.getCSVItemsIndexes(aPackage));
 	}
 
