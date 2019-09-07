@@ -22,8 +22,9 @@ Assignment: send a friend a package with different things. Each thing has an ind
     │   └── java
     │       └── com
     │           └── mobiquityinc
-    │               ├── builders
-    │               │   └── PackageBuilder.java
+    │               ├── builders
+    │               │   ├── ItemBuilder.java
+    │               │   └── PackageBuilder.java
     │               ├── exception
     │               │   └── APIException.java
     │               ├── packer
