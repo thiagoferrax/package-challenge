@@ -1,4 +1,4 @@
-package com.mobiquityinc.util;
+package com.mobiquityinc.parser;
 
 import java.util.ArrayList;
 import java.util.List;

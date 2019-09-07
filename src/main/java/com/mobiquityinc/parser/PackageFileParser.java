@@ -1,4 +1,4 @@
-package com.mobiquityinc.util;
+package com.mobiquityinc.parser;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -41,13 +41,17 @@ public class PackageFileParser {
 			Pattern pattern = Pattern.compile(ITEM_INFO_REGEXP);
 			while ((row = reader.readLine()) != null) {
 				String[] rowData = row.split(WEIGHT_AND_ITEMS_REGEXP);
-				packageFile.addRow(new Package(getWeightLimit(rowData)), getItems(pattern, rowData));
+				packageFile.addRow(getEmptyPackage(rowData), getItems(pattern, rowData));
 			}
 		} catch (Exception e) {
 			throw new APIException(e.getMessage(), e);
 		}
 
 		return packageFile;
+	}
+
+	private static Package getEmptyPackage(String[] rowData) {
+		return new Package(BigDecimal.valueOf(Double.valueOf(rowData[WEIGHT_LIMIT])));
 	}
 
 	private static List<Item> getItems(Pattern pattern, String[] rowData) throws APIException {
@@ -67,9 +71,5 @@ public class PackageFileParser {
 		}
 
 		return items;
-	}
-
-	private static BigDecimal getWeightLimit(String[] rowData) {
-		return BigDecimal.valueOf(Double.valueOf(rowData[WEIGHT_LIMIT]));
 	}
 }
