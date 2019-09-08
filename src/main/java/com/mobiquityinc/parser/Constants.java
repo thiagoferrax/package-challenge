@@ -1,6 +1,10 @@
 package com.mobiquityinc.parser;
 
 public class Constants {
+
+	private Constants() {
+	}
+
 	public static final int WEIGHT_LIMIT = 0;
 	public static final int ITEMS = 1;
 	public static final int INDEX = 1;
