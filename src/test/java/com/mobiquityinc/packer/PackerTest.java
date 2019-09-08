@@ -14,7 +14,7 @@ import com.mobiquityinc.exception.APIException;
 import com.mobiquityinc.factory.PackageSolver;
 import com.mobiquityinc.factory.PackageSolverFactory;
 import com.mobiquityinc.factory.PackageSolverFactory.Approach;
-import com.mobiquityinc.parser.Constants;
+import com.mobiquityinc.parser.ParserConstants;
 import com.mobiquityinc.pojos.Item;
 import com.mobiquityinc.pojos.Package;
 import com.mobiquityinc.util.PackageUtil;
@@ -32,7 +32,7 @@ class PackerTest {
 			Assert.fail();
 		} catch (APIException e) {
 			// Then
-			Assert.assertEquals(Constants.PATH_NOT_NULL_OR_EMPTY, e.getMessage());
+			Assert.assertEquals(ParserConstants.PATH_NOT_NULL_OR_EMPTY, e.getMessage());
 		}
 	}
 
@@ -47,7 +47,7 @@ class PackerTest {
 			Assert.fail();
 		} catch (APIException e) {
 			// Then
-			Assert.assertEquals(Constants.PATH_NOT_NULL_OR_EMPTY, e.getMessage());
+			Assert.assertEquals(ParserConstants.PATH_NOT_NULL_OR_EMPTY, e.getMessage());
 		}
 	}
 

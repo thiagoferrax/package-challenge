@@ -36,10 +36,11 @@ Assignment: send a friend a package with different things. Each thing has an ind
     │               ├── packer
     │               │   └── Packer.java
     │               ├── parser
-    │               │   ├── Constants.java
     │               │   ├── PackageFile.java
     │               │   ├── PackageFileParser.java
-    │               │   └── PackageFileRow.java
+    │               │   ├── PackageFileRow.java
+    │               │   ├── PackageFileValidator.java
+    │               │   └── ParserConstants.java
     │               ├── pojos
     │               │   ├── Item.java
     │               │   └── Package.java
@@ -51,6 +52,8 @@ Assignment: send a friend a package with different things. Each thing has an ind
                 └── mobiquityinc
                     ├── packer
                     │   └── PackerTest.java
+                    ├── parser
+                    │   └── PackageFileValidatorTest.java
                     └── util
                         ├── PackageFileParserTest.java
                         └── PackageUtilTest.java

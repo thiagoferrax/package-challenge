@@ -2,6 +2,7 @@ package com.mobiquityinc.parser;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -20,17 +21,19 @@ public class PackageFileParser {
 
 	public static PackageFile parse(String filePath) throws APIException {
 		if (filePath == null || filePath.isEmpty()) {
-			throw new APIException(Constants.PATH_NOT_NULL_OR_EMPTY);
+			throw new APIException(ParserConstants.PATH_NOT_NULL_OR_EMPTY);
 		}
 
 		PackageFile packageFile = new PackageFile();
 
 		try (FileReader file = new FileReader(filePath); BufferedReader reader = new BufferedReader(file)) {
 			String row;
-			Pattern pattern = Pattern.compile(Constants.ITEM_INFO_REGEXP);
+			Pattern pattern = Pattern.compile(ParserConstants.ITEM_INFO_REGEXP);
 			while ((row = reader.readLine()) != null) {
-				String[] rowData = row.split(Constants.WEIGHT_AND_ITEMS_REGEXP);
-				packageFile.addRow(getEmptyPackage(rowData), getItems(pattern, rowData));
+				String[] rowData = row.split(ParserConstants.WEIGHT_AND_ITEMS_REGEXP);
+				Package emptyPackage = getEmptyPackage(rowData);
+				List<Item> items = getItems(pattern, rowData);
+				packageFile.addRow(emptyPackage, items);
 			}
 		} catch (Exception e) {
 			throw new APIException(e.getMessage(), e);
@@ -39,22 +42,25 @@ public class PackageFileParser {
 		return packageFile;
 	}
 
-	private static Package getEmptyPackage(String[] rowData) {
-		return PackageBuilder.newPackage().withWeightLimit(rowData[Constants.WEIGHT_LIMIT]).now();
+	private static Package getEmptyPackage(String[] rowData) throws APIException {
+		return PackageFileValidator
+				.validate(PackageBuilder.newPackage().withWeightLimit(rowData[ParserConstants.WEIGHT_LIMIT_INDEX]).now());
 	}
 
 	private static List<Item> getItems(Pattern pattern, String[] rowData) throws APIException {
 		List<Item> items = new ArrayList<>();
-		String[] arrayOfItems = rowData[Constants.ITEMS].substring(1, rowData[Constants.ITEMS].length())
-				.split(Constants.ITEMS_REGEXP);
+		String[] arrayOfItems = rowData[ParserConstants.ITEMS_INDEX].substring(1, rowData[ParserConstants.ITEMS_INDEX].length())
+				.split(ParserConstants.ITEMS_REGEXP);
 
-		for (String item : arrayOfItems) {
-			Matcher matcher = pattern.matcher(item);
+		for (String itemData : arrayOfItems) {
+			Matcher matcher = pattern.matcher(itemData);
 			if (matcher.find()) {
-				items.add(ItemBuilder.newItem().withIndex(matcher.group(Constants.INDEX))
-						.withWeight(matcher.group(Constants.WEIGHT)).withCost(matcher.group(Constants.COST)).now());
+				items.add(PackageFileValidator
+						.validate(ItemBuilder.newItem().withIndex(matcher.group(ParserConstants.INDEX))
+								.withWeight(matcher.group(ParserConstants.WEIGHT_INDEX))
+								.withCost(matcher.group(ParserConstants.COST_INDEX)).now()));
 			} else {
-				throw new APIException(Constants.FILE_NOT_CORRECT);
+				throw new APIException(ParserConstants.FILE_NOT_CORRECT);
 			}
 		}
 
