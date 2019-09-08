@@ -13,15 +13,9 @@ public class PackageSolverFactory {
 	}
 
 	public PackageSolver newPackageSolver(Approach approach) {
-		PackageSolver packageSolver;
-		switch (approach) {
-		case DYNAMIC_PROGRAMMING:
+		PackageSolver packageSolver = null;
+		if (Approach.DYNAMIC_PROGRAMMING.equals(approach)) {
 			packageSolver = new DynamicProgrammingPackageSolver();
-			break;
-
-		default:
-			packageSolver = null;
-			break;
 		}
 		return packageSolver;
 	}
