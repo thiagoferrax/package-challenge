@@ -58,6 +58,8 @@ Assignment: send a friend a package with different things. Each thing has an ind
                         ├── PackageFileParserTest.java
                         └── PackageUtilTest.java
 ```
+#### Sequence diagram
+![PackageChallenge](https://user-images.githubusercontent.com/43149895/64495729-29c00480-d274-11e9-9803-95ebc3d8d2f3.png)
 
 #### Tech stack
 * [Java](https://www.java.com/) as the programming language
