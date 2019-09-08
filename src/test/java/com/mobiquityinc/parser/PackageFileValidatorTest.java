@@ -1,6 +1,9 @@
 package com.mobiquityinc.parser;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -8,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import com.mobiquityinc.builders.ItemBuilder;
 import com.mobiquityinc.builders.PackageBuilder;
 import com.mobiquityinc.exception.APIException;
+import com.mobiquityinc.pojos.Item;
 
 class PackageFileValidatorTest {
 	@Test
@@ -79,6 +83,50 @@ class PackageFileValidatorTest {
 		} catch (APIException e) {
 			Assert.assertEquals(ParserConstants.ITEM_WEIGHT_OR_COST_EXCEEDED_LIMIT.replace(ParserConstants.LIMIT,
 					String.valueOf(ParserConstants.MAX_COST)), e.getMessage());
+		}
+	}
+
+	@Test
+	void whenNumberOfItemsLessThanLimitDoesNotThrowsAPIExpection() throws APIException {
+		List<Item> availableItems = Arrays.asList(new Item[] {
+				ItemBuilder.newItem().withIndex(1).withWeight(new BigDecimal(40)).withCost(new BigDecimal(500)).now(),
+				ItemBuilder.newItem().withIndex(2).withWeight(new BigDecimal(20)).withCost(new BigDecimal(400)).now(),
+				ItemBuilder.newItem().withIndex(3).withWeight(new BigDecimal(10)).withCost(new BigDecimal(300)).now(),
+				ItemBuilder.newItem().withIndex(4).withWeight(new BigDecimal(30)).withCost(new BigDecimal(450))
+						.now() });
+
+		PackageFileValidator.validate(availableItems);
+	}
+
+	@Test
+	void whenNumberOfItemsEqualsToLimitDoesNotThrowsAPIExpection() throws APIException {
+		List<Item> items = new ArrayList<Item>();
+
+		for (int index = 0; index < ParserConstants.MAX_NUMBER_OF_ITEMS; index++) {
+			items.add(ItemBuilder.newItem().withIndex(index).withWeight(new BigDecimal(40))
+					.withCost(new BigDecimal(500)).now());
+		}
+
+		PackageFileValidator.validate(items);
+	}
+
+	@Test
+	void whenNumberOfItemsGreaterThanLimitThrowsAPIExpection() {
+		List<Item> items = new ArrayList<Item>();
+
+		for (int index = 0; index < ParserConstants.MAX_NUMBER_OF_ITEMS; index++) {
+			items.add(ItemBuilder.newItem().withIndex(index).withWeight(new BigDecimal(40))
+					.withCost(new BigDecimal(500)).now());
+		}
+		items.add(
+				ItemBuilder.newItem().withIndex(16).withWeight(new BigDecimal(40)).withCost(new BigDecimal(500)).now());
+
+		try {
+			PackageFileValidator.validate(items);
+			Assert.fail();
+		} catch (APIException e) {
+			Assert.assertEquals(ParserConstants.LIMIT_OF_AVAILABLE_ITEMS_WAS_EXCEEDED.replace(ParserConstants.LIMIT,
+					String.valueOf(ParserConstants.MAX_NUMBER_OF_ITEMS)), e.getMessage());
 		}
 	}
 

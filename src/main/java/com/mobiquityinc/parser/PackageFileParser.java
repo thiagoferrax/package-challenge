@@ -2,7 +2,6 @@ package com.mobiquityinc.parser;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -16,6 +15,7 @@ import com.mobiquityinc.pojos.Package;
 
 public class PackageFileParser {
 
+	
 	private PackageFileParser() {
 	}
 
@@ -32,7 +32,8 @@ public class PackageFileParser {
 			while ((row = reader.readLine()) != null) {
 				String[] rowData = row.split(ParserConstants.WEIGHT_AND_ITEMS_REGEXP);
 				Package emptyPackage = getEmptyPackage(rowData);
-				List<Item> items = getItems(pattern, rowData);
+				List<Item> items = PackageFileValidator.validate(getItems(pattern, rowData));
+				
 				packageFile.addRow(emptyPackage, items);
 			}
 		} catch (Exception e) {
