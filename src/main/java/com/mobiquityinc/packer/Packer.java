@@ -31,13 +31,14 @@ public class Packer {
 	public static String pack(String filePath) throws APIException {
 		PackageFile file = PackageFileParser.parse(filePath);
 
+		PackageSolver packageSolver = PackageSolverFactory.getInstance()
+				.newPackageSolver(Approach.DYNAMIC_PROGRAMMING);
+		
 		StringBuilderDecorator builder = new StringBuilderDecorator(new StringBuilder());
 		for (PackageFileRow row : file.getRows()) {
 			Package aPackage = row.getPackage();
 			List<Item> availableItems = row.getItems();
 
-			PackageSolver packageSolver = PackageSolverFactory.getInstance()
-					.newPackageSolver(Approach.DYNAMIC_PROGRAMMING);
 			packageSolver.pack(aPackage, availableItems);
 
 			builder.append(aPackage.getItems());
