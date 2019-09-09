@@ -7,7 +7,8 @@
 
 ## About
 
-Assignment: send a friend a package with different things. Each thing has an index, weight and cost, and the package has a weight limit. The goal is to select the things maximizing the total cost and according to the package limit.
+The assignment: 
+- Solve the package algorithm - send a friend a package with different items. Each item has an index, weight and cost, and the package has a weight limit. The goal is to select the things maximizing the total cost, respecting the package limit.
 
 The main requirements that guided the design and implementation of package-challenge:
 
@@ -20,11 +21,12 @@ The main requirements that guided the design and implementation of package-chall
 The strategy was to create a recursive structure to solve the problem using Dynamic Programming approach. The implemented algorithm used an array of two dimensions to keep the results of the (sub) instances of the problem.
 
 The following code presents the core of the solution: 
-- After creating an array to store the costs, there is a loop through the available items and another one through the weights (starting at weight one and going until the package weight limit). 
-- Each array element start receiving the calculated maximum cost of previus item, or zero, in the case there is no previus item.
-- Then, if the current item fits in the package, a new maximum cost is then calculated using the current item cost and the array of costs.
-- If this new maximum is greater than or equal to previus one, the element it is updated.
-- Finally, there is another algorithm that uses the fullfiled costs array to evaluate the items that were added to the package.
+- After creating an array to store costs, there is a loop for available items and a loop for weights (starting at weight one and going to the package weight limit). 
+- Each array element begins to receive the calculated maximum cost of previus item for the exact weight, or zero, in the case there is no previus item.
+- Then, if the current item fits the package, a new maximum cost is calculated using the item cost and the array of costs.
+- If this new maximum is greater than or equal to the previus one, the element will be updated.
+- Finally, there is another algorithm that uses the costs array to evaluate the items that were added to the package.
+
 ```
 ...
     int weightLimit = round(aPackage.getWeightLimit());
@@ -49,6 +51,17 @@ The following code presents the core of the solution:
     aPackage.setItems(getPackageItems(items, weightLimit, costs));
 ...
 ```
+## Overall solution and patterns
+
+The package-challenge was developed using Test Driven Development, and its source code was enhanced with the help of Sonar reports. Current coverage at this time is over 85%. In addition, some design patterns like Factory, Decorator, and Builder were applyed to increase code quality.
+
+About the solution:
+- A file parser was created (PackageFileParser.java) to handle the test file, validating its data according to the specified constraints.
+- Builders of Package and Item were created using FluentBuilder pattern to keep the code core and unit tests more readable and easy to maintain.
+- Because the package problem could be solved using different approaches, the Factory pattern was implemented by planning future additions of new solutions. Therefore, an interface (PackageSolver.java) was defined and implemented (DynamicProgrammingPackageSolver.java) and the factory (PackageSolverFactory.java) is prepared to receive more solutions.
+- The Decorator pattern was used to wrap StringBuilder by adding a new append method that could get the list of items, extracting their indexes and appending them as comma-separated values.
+
+The concern has always been to create very understandable and functional code.
 
 ## Overview
 
