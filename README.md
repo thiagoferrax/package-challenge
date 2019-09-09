@@ -8,7 +8,7 @@
 ## About
 
 The assignment: 
-- Solve the package algorithm - send a friend a package with different items. Each item has an index, weight and cost, and the package has a weight limit. The goal is to select the things maximizing the total cost, respecting the package limit.
+- Solve the package problem - send a friend a package with different items. Each item has an index, weight and cost, and the package has a weight limit. The goal is to select the things maximizing the total cost, respecting the package limit.
 
 The main requirements that guided the design and implementation of package-challenge:
 
