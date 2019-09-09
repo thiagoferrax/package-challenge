@@ -16,6 +16,18 @@ The main requirements that guided the design and implementation of package-chall
 - It should be readable, maintainable, and extensible where appropriate
 - The implementation should be in Java
 
+## Overall solution and patterns
+
+The package-challenge was developed using Test Driven Development, and its source code was enhanced with the help of Sonar reports. Current coverage at this time is over 85%. In addition, some design patterns like Factory, Decorator, and Builder were applyed to increase code quality.
+
+About the solution:
+- A file parser was created (PackageFileParser.java) to handle the test file, validating its data according to the specified constraints.
+- Builders of Package and Item were created using FluentBuilder pattern to keep the code core and unit tests more readable and easy to maintain.
+- Because the package problem could be solved using different approaches, the Factory pattern was implemented by planning future additions of new solutions. Therefore, an interface (PackageSolver.java) was defined and implemented (DynamicProgrammingPackageSolver.java) and the factory (PackageSolverFactory.java) is prepared to receive more solutions.
+- The Decorator pattern was used to wrap StringBuilder by adding a new append method that could get the list of items, extracting their indexes and appending them as comma-separated values.
+
+The concern has always been to create very understandable and functional code.
+
 ## Strategy and algorithm
 
 The strategy was to create a recursive structure to solve the problem using Dynamic Programming approach. The implemented algorithm used an array of two dimensions to keep the results of the (sub) instances of the problem.
@@ -51,17 +63,6 @@ The following code presents the core of the solution:
     aPackage.setItems(getPackageItems(items, weightLimit, costs));
 ...
 ```
-## Overall solution and patterns
-
-The package-challenge was developed using Test Driven Development, and its source code was enhanced with the help of Sonar reports. Current coverage at this time is over 85%. In addition, some design patterns like Factory, Decorator, and Builder were applyed to increase code quality.
-
-About the solution:
-- A file parser was created (PackageFileParser.java) to handle the test file, validating its data according to the specified constraints.
-- Builders of Package and Item were created using FluentBuilder pattern to keep the code core and unit tests more readable and easy to maintain.
-- Because the package problem could be solved using different approaches, the Factory pattern was implemented by planning future additions of new solutions. Therefore, an interface (PackageSolver.java) was defined and implemented (DynamicProgrammingPackageSolver.java) and the factory (PackageSolverFactory.java) is prepared to receive more solutions.
-- The Decorator pattern was used to wrap StringBuilder by adding a new append method that could get the list of items, extracting their indexes and appending them as comma-separated values.
-
-The concern has always been to create very understandable and functional code.
 
 ## Overview
 
