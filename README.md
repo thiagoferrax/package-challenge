@@ -113,7 +113,7 @@ The following code presents the core of the solution:
                         └── PackageUtilTest.java
 ```
 #### Sequence diagram
-![PackageChallenge](https://user-images.githubusercontent.com/43149895/64495729-29c00480-d274-11e9-9803-95ebc3d8d2f3.png)
+![PackageChallenge](https://user-images.githubusercontent.com/43149895/64691700-b8e23d80-d469-11e9-9c00-2ac0e2733804.png)
 
 #### Tech stack
 * [Java](https://www.java.com/) as the programming language
