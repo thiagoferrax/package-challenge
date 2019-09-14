@@ -33,9 +33,9 @@ The strategy was to create a recursive structure to solve the package problem us
 
 The following code presents the core of the solution: 
 - After creating an array to store costs, there is a loop for available items and a loop for weights (starting at weight one and going to the package weight limit);
-- Each array element begins to receive the calculated maximum cost of previus item for the exact weight, or zero, in the case there is no previus item;
+- Each array element begins to receive the calculated maximum cost of previous item for the exact weight, or zero, in the case there is no previous item;
 - Then, if the current item fits the package, a new maximum cost is calculated using the item cost and the array of costs;
-- If this new maximum is greater than or equal to the previus one, the element will be updated;
+- If this new maximum is greater than or equal to the previous one, the element will be updated;
 - Finally, there is another algorithm that uses the costs array to evaluate the items that were added to the package.
 
 ```
