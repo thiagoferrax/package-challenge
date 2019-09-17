@@ -93,8 +93,7 @@ The following code presents the core of the solution:
     │               │   ├── PackageFile.java
     │               │   ├── PackageFileParser.java
     │               │   ├── PackageFileRow.java
-    │               │   ├── PackageFileValidator.java
-    │               │   └── ParserConstants.java
+    │               │   └── PackageFileValidator.java
     │               ├── pojos
     │               │   ├── Item.java
     │               │   └── Package.java
