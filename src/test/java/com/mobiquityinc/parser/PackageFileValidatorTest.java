@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import com.mobiquityinc.builders.ItemBuilder;
@@ -31,9 +31,9 @@ class PackageFileValidatorTest {
 		try {
 			PackageFileValidator.validate(
 					PackageBuilder.newPackage().withWeightLimit(new BigDecimal(ParserConstants.MAX_WEIGHT + 1)).now());
-			Assert.fail();
+			Assertions.fail();
 		} catch (APIException e) {
-			Assert.assertEquals(ParserConstants.PACKAGE_WEIGHT_EXCEEDED_LIMIT.replace(ParserConstants.LIMIT,
+			Assertions.assertEquals(ParserConstants.PACKAGE_WEIGHT_EXCEEDED_LIMIT.replace(ParserConstants.LIMIT,
 					String.valueOf(ParserConstants.MAX_WEIGHT)), e.getMessage());
 		}
 	}
@@ -55,9 +55,9 @@ class PackageFileValidatorTest {
 		try {
 			PackageFileValidator.validate(ItemBuilder.newItem()
 					.withWeight(new BigDecimal(ParserConstants.MAX_WEIGHT + 1)).withCost(BigDecimal.TEN).now());
-			Assert.fail();
+			Assertions.fail();
 		} catch (APIException e) {
-			Assert.assertEquals(ParserConstants.ITEM_WEIGHT_OR_COST_EXCEEDED_LIMIT.replace(ParserConstants.LIMIT,
+			Assertions.assertEquals(ParserConstants.ITEM_WEIGHT_OR_COST_EXCEEDED_LIMIT.replace(ParserConstants.LIMIT,
 					String.valueOf(ParserConstants.MAX_WEIGHT)), e.getMessage());
 		}
 	}
@@ -79,9 +79,9 @@ class PackageFileValidatorTest {
 		try {
 			PackageFileValidator.validate(ItemBuilder.newItem().withWeight(BigDecimal.TEN)
 					.withCost(new BigDecimal(ParserConstants.MAX_COST + 1)).now());
-			Assert.fail();
+			Assertions.fail();
 		} catch (APIException e) {
-			Assert.assertEquals(ParserConstants.ITEM_WEIGHT_OR_COST_EXCEEDED_LIMIT.replace(ParserConstants.LIMIT,
+			Assertions.assertEquals(ParserConstants.ITEM_WEIGHT_OR_COST_EXCEEDED_LIMIT.replace(ParserConstants.LIMIT,
 					String.valueOf(ParserConstants.MAX_COST)), e.getMessage());
 		}
 	}
@@ -123,9 +123,9 @@ class PackageFileValidatorTest {
 
 		try {
 			PackageFileValidator.validate(items);
-			Assert.fail();
+			Assertions.fail();
 		} catch (APIException e) {
-			Assert.assertEquals(ParserConstants.LIMIT_OF_AVAILABLE_ITEMS_WAS_EXCEEDED.replace(ParserConstants.LIMIT,
+			Assertions.assertEquals(ParserConstants.LIMIT_OF_AVAILABLE_ITEMS_WAS_EXCEEDED.replace(ParserConstants.LIMIT,
 					String.valueOf(ParserConstants.MAX_NUMBER_OF_ITEMS)), e.getMessage());
 		}
 	}
