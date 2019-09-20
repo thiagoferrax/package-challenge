@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import com.mobiquityinc.builders.ItemBuilder;
@@ -17,36 +17,36 @@ class PackageFileValidatorTest {
 	@Test
 	void whenPackageWeightLessThanLimitDoesNotThrowExpection() throws APIException {
 		PackageFileValidator.validate(
-				PackageBuilder.newPackage().withWeightLimit(new BigDecimal(ParserConstants.MAX_WEIGHT - 1)).now());
+				PackageBuilder.newPackage().withWeightLimit(new BigDecimal(PackageFileValidator.MAX_WEIGHT - 1)).now());
 	}
 
 	@Test
 	void whenPackageWeightEqualsToLimitDoesNotThrowExpection() throws APIException {
 		PackageFileValidator.validate(
-				PackageBuilder.newPackage().withWeightLimit(new BigDecimal(ParserConstants.MAX_WEIGHT)).now());
+				PackageBuilder.newPackage().withWeightLimit(new BigDecimal(PackageFileValidator.MAX_WEIGHT)).now());
 	}
 
 	@Test
 	void whenPackageWeightGreaterThanLimitThrowsAPIExpection() {
 		try {
 			PackageFileValidator.validate(
-					PackageBuilder.newPackage().withWeightLimit(new BigDecimal(ParserConstants.MAX_WEIGHT + 1)).now());
-			Assert.fail();
+					PackageBuilder.newPackage().withWeightLimit(new BigDecimal(PackageFileValidator.MAX_WEIGHT + 1)).now());
+			Assertions.fail();
 		} catch (APIException e) {
-			Assert.assertEquals(ParserConstants.PACKAGE_WEIGHT_EXCEEDED_LIMIT.replace(ParserConstants.LIMIT,
-					String.valueOf(ParserConstants.MAX_WEIGHT)), e.getMessage());
+			Assertions.assertEquals(PackageFileValidator.PACKAGE_WEIGHT_EXCEEDED_LIMIT.replace(PackageFileValidator.LIMIT,
+					String.valueOf(PackageFileValidator.MAX_WEIGHT)), e.getMessage());
 		}
 	}
 
 	@Test
 	void whenItemWeightLessThanLimitDoesNotThrowExpection() throws APIException {
-		PackageFileValidator.validate(ItemBuilder.newItem().withWeight(new BigDecimal(ParserConstants.MAX_WEIGHT - 1))
+		PackageFileValidator.validate(ItemBuilder.newItem().withWeight(new BigDecimal(PackageFileValidator.MAX_WEIGHT - 1))
 				.withCost(BigDecimal.TEN).now());
 	}
 
 	@Test
 	void whenItemWeightEqualsToLimitDoesNotThrowExpection() throws APIException {
-		PackageFileValidator.validate(ItemBuilder.newItem().withWeight(new BigDecimal(ParserConstants.MAX_WEIGHT))
+		PackageFileValidator.validate(ItemBuilder.newItem().withWeight(new BigDecimal(PackageFileValidator.MAX_WEIGHT))
 				.withCost(BigDecimal.TEN).now());
 	}
 
@@ -54,35 +54,35 @@ class PackageFileValidatorTest {
 	void whenItemWeightGreaterThanLimitThrowsAPIExpection() {
 		try {
 			PackageFileValidator.validate(ItemBuilder.newItem()
-					.withWeight(new BigDecimal(ParserConstants.MAX_WEIGHT + 1)).withCost(BigDecimal.TEN).now());
-			Assert.fail();
+					.withWeight(new BigDecimal(PackageFileValidator.MAX_WEIGHT + 1)).withCost(BigDecimal.TEN).now());
+			Assertions.fail();
 		} catch (APIException e) {
-			Assert.assertEquals(ParserConstants.ITEM_WEIGHT_OR_COST_EXCEEDED_LIMIT.replace(ParserConstants.LIMIT,
-					String.valueOf(ParserConstants.MAX_WEIGHT)), e.getMessage());
+			Assertions.assertEquals(PackageFileValidator.ITEM_WEIGHT_OR_COST_EXCEEDED_LIMIT.replace(PackageFileValidator.LIMIT,
+					String.valueOf(PackageFileValidator.MAX_WEIGHT)), e.getMessage());
 		}
 	}
 
 	@Test
 	void whenItemCostLessThanLimitDoesNotThrowExpection() throws APIException {
 		PackageFileValidator.validate(ItemBuilder.newItem().withWeight(BigDecimal.TEN)
-				.withCost(new BigDecimal(ParserConstants.MAX_COST - 1)).now());
+				.withCost(new BigDecimal(PackageFileValidator.MAX_COST - 1)).now());
 	}
 
 	@Test
 	void whenItemCostEqualsToLimitDoesNotThrowExpection() throws APIException {
 		PackageFileValidator.validate(ItemBuilder.newItem().withWeight(BigDecimal.TEN)
-				.withCost(new BigDecimal(ParserConstants.MAX_COST)).now());
+				.withCost(new BigDecimal(PackageFileValidator.MAX_COST)).now());
 	}
 
 	@Test
 	void whenItemCostGreaterThanLimitThrowsAPIExpection() {
 		try {
 			PackageFileValidator.validate(ItemBuilder.newItem().withWeight(BigDecimal.TEN)
-					.withCost(new BigDecimal(ParserConstants.MAX_COST + 1)).now());
-			Assert.fail();
+					.withCost(new BigDecimal(PackageFileValidator.MAX_COST + 1)).now());
+			Assertions.fail();
 		} catch (APIException e) {
-			Assert.assertEquals(ParserConstants.ITEM_WEIGHT_OR_COST_EXCEEDED_LIMIT.replace(ParserConstants.LIMIT,
-					String.valueOf(ParserConstants.MAX_COST)), e.getMessage());
+			Assertions.assertEquals(PackageFileValidator.ITEM_WEIGHT_OR_COST_EXCEEDED_LIMIT.replace(PackageFileValidator.LIMIT,
+					String.valueOf(PackageFileValidator.MAX_COST)), e.getMessage());
 		}
 	}
 
@@ -102,7 +102,7 @@ class PackageFileValidatorTest {
 	void whenNumberOfItemsEqualsToLimitDoesNotThrowsAPIExpection() throws APIException {
 		List<Item> items = new ArrayList<Item>();
 
-		for (int index = 0; index < ParserConstants.MAX_NUMBER_OF_ITEMS; index++) {
+		for (int index = 0; index < PackageFileValidator.MAX_NUMBER_OF_ITEMS; index++) {
 			items.add(ItemBuilder.newItem().withIndex(index).withWeight(new BigDecimal(40))
 					.withCost(new BigDecimal(500)).now());
 		}
@@ -114,7 +114,7 @@ class PackageFileValidatorTest {
 	void whenNumberOfItemsGreaterThanLimitThrowsAPIExpection() {
 		List<Item> items = new ArrayList<Item>();
 
-		for (int index = 0; index < ParserConstants.MAX_NUMBER_OF_ITEMS; index++) {
+		for (int index = 0; index < PackageFileValidator.MAX_NUMBER_OF_ITEMS; index++) {
 			items.add(ItemBuilder.newItem().withIndex(index).withWeight(new BigDecimal(40))
 					.withCost(new BigDecimal(500)).now());
 		}
@@ -123,10 +123,10 @@ class PackageFileValidatorTest {
 
 		try {
 			PackageFileValidator.validate(items);
-			Assert.fail();
+			Assertions.fail();
 		} catch (APIException e) {
-			Assert.assertEquals(ParserConstants.LIMIT_OF_AVAILABLE_ITEMS_WAS_EXCEEDED.replace(ParserConstants.LIMIT,
-					String.valueOf(ParserConstants.MAX_NUMBER_OF_ITEMS)), e.getMessage());
+			Assertions.assertEquals(PackageFileValidator.LIMIT_OF_AVAILABLE_ITEMS_WAS_EXCEEDED.replace(PackageFileValidator.LIMIT,
+					String.valueOf(PackageFileValidator.MAX_NUMBER_OF_ITEMS)), e.getMessage());
 		}
 	}
 

@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import com.mobiquityinc.builders.PackageBuilder;
@@ -19,7 +19,7 @@ class PackageUtilTest {
 		Package emptyPackage = new Package(BigDecimal.TEN);
 
 		// When and Then
-		Assert.assertEquals("-", PackageUtil.getCSVItemsIndexes(emptyPackage.getItems()));
+		Assertions.assertEquals("-", PackageUtil.getCSVItemsIndexes(emptyPackage.getItems()));
 	}
 
 	@Test
@@ -32,7 +32,7 @@ class PackageUtilTest {
 				.now();
 
 		// When and Then
-		Assert.assertEquals("1,2,3", PackageUtil.getCSVItemsIndexes(aPackage.getItems()));
+		Assertions.assertEquals("1,2,3", PackageUtil.getCSVItemsIndexes(aPackage.getItems()));
 	}
 
 	@Test
@@ -46,7 +46,7 @@ class PackageUtilTest {
 		PackageUtil.sortByIndex(items);
 
 		// Then
-		Assert.assertEquals(Arrays.asList(new Item[] { new Item(1, new BigDecimal(3.5), new BigDecimal(10)),
+		Assertions.assertEquals(Arrays.asList(new Item[] { new Item(1, new BigDecimal(3.5), new BigDecimal(10)),
 				new Item(2, new BigDecimal(4.2), new BigDecimal(8)),
 				new Item(3, new BigDecimal(7.0), new BigDecimal(10)) }), items);
 	}

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import com.mobiquityinc.builders.ItemBuilder;
@@ -14,7 +14,7 @@ import com.mobiquityinc.exception.APIException;
 import com.mobiquityinc.factory.PackageSolver;
 import com.mobiquityinc.factory.PackageSolverFactory;
 import com.mobiquityinc.factory.PackageSolverFactory.Approach;
-import com.mobiquityinc.parser.ParserConstants;
+import com.mobiquityinc.parser.PackageFileParser;
 import com.mobiquityinc.pojos.Item;
 import com.mobiquityinc.pojos.Package;
 import com.mobiquityinc.util.PackageUtil;
@@ -29,10 +29,10 @@ class PackerTest {
 		try {
 			// When
 			Packer.pack(filePath);
-			Assert.fail();
+			Assertions.fail();
 		} catch (APIException e) {
 			// Then
-			Assert.assertEquals(ParserConstants.PATH_NOT_NULL_OR_EMPTY, e.getMessage());
+			Assertions.assertEquals(PackageFileParser.PATH_NOT_NULL_OR_EMPTY, e.getMessage());
 		}
 	}
 
@@ -44,10 +44,10 @@ class PackerTest {
 		try {
 			// When
 			Packer.pack(filePath);
-			Assert.fail();
+			Assertions.fail();
 		} catch (APIException e) {
 			// Then
-			Assert.assertEquals(ParserConstants.PATH_NOT_NULL_OR_EMPTY, e.getMessage());
+			Assertions.assertEquals(PackageFileParser.PATH_NOT_NULL_OR_EMPTY, e.getMessage());
 		}
 	}
 
@@ -57,7 +57,7 @@ class PackerTest {
 		String filePath = "package_file.txt";
 
 		// When and Then
-		Assert.assertEquals(
+		Assertions.assertEquals(
 				"4" + System.lineSeparator() + "-" + System.lineSeparator() + "2,7" + System.lineSeparator() + "8,9",
 				Packer.pack(filePath));
 	}
@@ -73,7 +73,7 @@ class PackerTest {
 		packageSolver.pack(emptyPackage, noAvailableItems);
 
 		// Then
-		Assert.assertEquals("-", PackageUtil.getCSVItemsIndexes(emptyPackage.getItems()));
+		Assertions.assertEquals("-", PackageUtil.getCSVItemsIndexes(emptyPackage.getItems()));
 	}
 
 	@Test
@@ -92,7 +92,7 @@ class PackerTest {
 		packageSolver.pack(aPackage, availableItems);
 
 		// Then
-		Assert.assertEquals("-", PackageUtil.getCSVItemsIndexes(aPackage.getItems()));
+		Assertions.assertEquals("-", PackageUtil.getCSVItemsIndexes(aPackage.getItems()));
 	}
 
 	@Test
@@ -110,7 +110,7 @@ class PackerTest {
 		packageSolver.pack(aPackage, availableItems);
 
 		// Then
-		Assert.assertEquals("2,4", PackageUtil.getCSVItemsIndexes(aPackage.getItems()));
+		Assertions.assertEquals("2,4", PackageUtil.getCSVItemsIndexes(aPackage.getItems()));
 	}
 
 	@Test
@@ -131,7 +131,7 @@ class PackerTest {
 		packageSolver.pack(aPackage, availableItems);
 
 		// Then
-		Assert.assertEquals("4", PackageUtil.getCSVItemsIndexes(aPackage.getItems()));
+		Assertions.assertEquals("4", PackageUtil.getCSVItemsIndexes(aPackage.getItems()));
 	}
 
 	@Test
@@ -146,7 +146,7 @@ class PackerTest {
 		packageSolver.pack(aPackage, availableItems);
 
 		// Then
-		Assert.assertEquals("-", PackageUtil.getCSVItemsIndexes(aPackage.getItems()));
+		Assertions.assertEquals("-", PackageUtil.getCSVItemsIndexes(aPackage.getItems()));
 	}
 
 	@Test
@@ -170,7 +170,7 @@ class PackerTest {
 		packageSolver.pack(aPackage, availableItems);
 
 		// Then
-		Assert.assertEquals("2,7", PackageUtil.getCSVItemsIndexes(aPackage.getItems()));
+		Assertions.assertEquals("2,7", PackageUtil.getCSVItemsIndexes(aPackage.getItems()));
 	}
 
 	@Test
@@ -194,7 +194,7 @@ class PackerTest {
 		packageSolver.pack(aPackage, availableItems);
 
 		// Then
-		Assert.assertEquals("8,9", PackageUtil.getCSVItemsIndexes(aPackage.getItems()));
+		Assertions.assertEquals("8,9", PackageUtil.getCSVItemsIndexes(aPackage.getItems()));
 	}
 
 	@Test
@@ -213,7 +213,7 @@ class PackerTest {
 		packageSolver.pack(aPackage, items);
 
 		// Then
-		Assert.assertEquals("1,3", PackageUtil.getCSVItemsIndexes(aPackage.getItems()));
+		Assertions.assertEquals("1,3", PackageUtil.getCSVItemsIndexes(aPackage.getItems()));
 	}
 
 	@Test
@@ -232,7 +232,7 @@ class PackerTest {
 		packageSolver.pack(aPackage, items);
 
 		// Then
-		Assert.assertEquals("3,4", PackageUtil.getCSVItemsIndexes(aPackage.getItems()));
+		Assertions.assertEquals("3,4", PackageUtil.getCSVItemsIndexes(aPackage.getItems()));
 	}
 
 	@Test
@@ -251,7 +251,7 @@ class PackerTest {
 		packageSolver.pack(aPackage, items);
 
 		// Then
-		Assert.assertEquals("1,4", PackageUtil.getCSVItemsIndexes(aPackage.getItems()));
+		Assertions.assertEquals("1,4", PackageUtil.getCSVItemsIndexes(aPackage.getItems()));
 	}
 
 	@Test
@@ -270,7 +270,7 @@ class PackerTest {
 		packageSolver.pack(aPackage, items);
 
 		// Then
-		Assert.assertEquals("3,4", PackageUtil.getCSVItemsIndexes(aPackage.getItems()));
+		Assertions.assertEquals("3,4", PackageUtil.getCSVItemsIndexes(aPackage.getItems()));
 	}
 
 	@Test
@@ -289,7 +289,7 @@ class PackerTest {
 		packageSolver.pack(aPackage, items);
 
 		// Then
-		Assert.assertEquals("1,3,4", PackageUtil.getCSVItemsIndexes(aPackage.getItems()));
+		Assertions.assertEquals("1,3,4", PackageUtil.getCSVItemsIndexes(aPackage.getItems()));
 	}
 
 }
