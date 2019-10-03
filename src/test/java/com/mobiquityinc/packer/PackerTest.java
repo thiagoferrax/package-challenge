@@ -15,8 +15,8 @@ import com.mobiquityinc.factory.PackageSolver;
 import com.mobiquityinc.factory.PackageSolverFactory;
 import com.mobiquityinc.factory.PackageSolverFactory.Approach;
 import com.mobiquityinc.parser.PackageFileParser;
-import com.mobiquityinc.pojos.Item;
-import com.mobiquityinc.pojos.Package;
+import com.mobiquityinc.tos.Item;
+import com.mobiquityinc.tos.Package;
 import com.mobiquityinc.util.PackageUtil;
 
 class PackerTest {

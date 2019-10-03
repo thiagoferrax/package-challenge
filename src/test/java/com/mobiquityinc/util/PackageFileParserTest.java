@@ -9,7 +9,7 @@ import com.mobiquityinc.exception.APIException;
 import com.mobiquityinc.parser.PackageFile;
 import com.mobiquityinc.parser.PackageFileParser;
 import com.mobiquityinc.parser.PackageFileRow;
-import com.mobiquityinc.pojos.Item;
+import com.mobiquityinc.tos.Item;
 
 class PackageFileParserTest {
 

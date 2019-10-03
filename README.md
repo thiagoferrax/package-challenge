@@ -67,6 +67,7 @@ The following code presents the core of the solution:
 
 #### Project structure
 ```
+.
 ├── package_file.txt
 ├── Packaging Challenge.pdf
 ├── pom.xml
@@ -94,7 +95,7 @@ The following code presents the core of the solution:
     │               │   ├── PackageFileParser.java
     │               │   ├── PackageFileRow.java
     │               │   └── PackageFileValidator.java
-    │               ├── pojos
+    │               ├── tos
     │               │   ├── Item.java
     │               │   └── Package.java
     │               └── util

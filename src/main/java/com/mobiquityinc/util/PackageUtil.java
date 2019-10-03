@@ -5,7 +5,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.mobiquityinc.pojos.Item;
+import com.mobiquityinc.tos.Item;
 
 public class PackageUtil {
 	private PackageUtil() {

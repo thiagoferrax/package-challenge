@@ -5,8 +5,8 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mobiquityinc.pojos.Item;
-import com.mobiquityinc.pojos.Package;
+import com.mobiquityinc.tos.Item;
+import com.mobiquityinc.tos.Package;
 import com.mobiquityinc.util.PackageUtil;
 
 public class DynamicProgrammingPackageSolver implements PackageSolver {

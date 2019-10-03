@@ -3,8 +3,8 @@ package com.mobiquityinc.builders;
 import java.math.BigDecimal;
 import java.util.List;
 
-import com.mobiquityinc.pojos.Item;
-import com.mobiquityinc.pojos.Package;
+import com.mobiquityinc.tos.Item;
+import com.mobiquityinc.tos.Package;
 
 public class PackageBuilder {
 	private Package aPackage;

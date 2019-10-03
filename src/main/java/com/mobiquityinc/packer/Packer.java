@@ -10,8 +10,8 @@ import com.mobiquityinc.factory.PackageSolverFactory.Approach;
 import com.mobiquityinc.parser.PackageFile;
 import com.mobiquityinc.parser.PackageFileParser;
 import com.mobiquityinc.parser.PackageFileRow;
-import com.mobiquityinc.pojos.Item;
-import com.mobiquityinc.pojos.Package;
+import com.mobiquityinc.tos.Item;
+import com.mobiquityinc.tos.Package;
 
 public class Packer {
 

@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import com.mobiquityinc.builders.ItemBuilder;
 import com.mobiquityinc.builders.PackageBuilder;
 import com.mobiquityinc.exception.APIException;
-import com.mobiquityinc.pojos.Item;
+import com.mobiquityinc.tos.Item;
 
 class PackageFileValidatorTest {
 	@Test

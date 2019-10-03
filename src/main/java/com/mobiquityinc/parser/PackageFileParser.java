@@ -10,8 +10,8 @@ import java.util.regex.Pattern;
 import com.mobiquityinc.builders.ItemBuilder;
 import com.mobiquityinc.builders.PackageBuilder;
 import com.mobiquityinc.exception.APIException;
-import com.mobiquityinc.pojos.Item;
-import com.mobiquityinc.pojos.Package;
+import com.mobiquityinc.tos.Item;
+import com.mobiquityinc.tos.Package;
 
 public class PackageFileParser {
 	public static final int WEIGHT_LIMIT_INDEX = 0;

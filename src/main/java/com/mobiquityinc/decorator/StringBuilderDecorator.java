@@ -2,7 +2,7 @@ package com.mobiquityinc.decorator;
 
 import java.util.List;
 
-import com.mobiquityinc.pojos.Item;
+import com.mobiquityinc.tos.Item;
 import com.mobiquityinc.util.PackageUtil;
 
 public class StringBuilderDecorator {

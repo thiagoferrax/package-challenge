@@ -3,8 +3,8 @@ package com.mobiquityinc.parser;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mobiquityinc.pojos.Item;
-import com.mobiquityinc.pojos.Package;
+import com.mobiquityinc.tos.Item;
+import com.mobiquityinc.tos.Package;
 
 public class PackageFileRow {
 	private Package aPackage;

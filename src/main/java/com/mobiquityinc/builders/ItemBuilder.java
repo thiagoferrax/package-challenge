@@ -2,7 +2,7 @@ package com.mobiquityinc.builders;
 
 import java.math.BigDecimal;
 
-import com.mobiquityinc.pojos.Item;
+import com.mobiquityinc.tos.Item;
 
 public class ItemBuilder {
 	private Item item;

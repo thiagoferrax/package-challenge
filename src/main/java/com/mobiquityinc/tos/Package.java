@@ -1,4 +1,4 @@
-package com.mobiquityinc.pojos;
+package com.mobiquityinc.tos;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
